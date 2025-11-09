@@ -1,7 +1,23 @@
 {
   "name": "smart-contracts",
   "version": "1.0.0",
+  "description": "Smart contracts for Somnia prediction market",
   "type": "module",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network somniaTestnet",
+    "deploy:devnet": "hardhat run scripts/deploy.js --network somniaDevnet",
+    "test": "hardhat test",
+    "clean": "hardhat clean"
+  },
+  "keywords": [
+    "solidity",
+    "hardhat",
+    "somnia",
+    "prediction-market"
+  ],
+  "author": "",
+  "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.5",
     "@nomicfoundation/hardhat-toolbox-viem": "^5.0.1",
@@ -10,5 +26,9 @@
     "hardhat": "^3.0.12",
     "typescript": "~5.8.0",
     "viem": "^2.38.6"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.3"
   }
 }

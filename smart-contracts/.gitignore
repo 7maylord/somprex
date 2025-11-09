@@ -18,3 +18,14 @@
 
 # Hardhat coverage reports
 /coverage
+
+node_modules/
+.env
+cache/
+
+typechain/
+typechain-types/
+deployments/*.json
+!deployments/*.example.json
+coverage/
+coverage.json
