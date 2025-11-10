@@ -166,7 +166,7 @@
       },
       {
         "indexed": false,
-        "internalType": "enum PredictionMarket.MarketType",
+        "internalType": "enum PredictionMarketV2.MarketType",
         "name": "marketType",
         "type": "uint8"
       },
@@ -391,7 +391,7 @@
         "type": "bytes32"
       },
       {
-        "internalType": "enum PredictionMarket.MarketType",
+        "internalType": "enum PredictionMarketV2.MarketType",
         "name": "_marketType",
         "type": "uint8"
       },
@@ -453,7 +453,7 @@
             "type": "bytes32"
           },
           {
-            "internalType": "enum PredictionMarket.MarketType",
+            "internalType": "enum PredictionMarketV2.MarketType",
             "name": "marketType",
             "type": "uint8"
           },
@@ -478,7 +478,7 @@
             "type": "uint256"
           },
           {
-            "internalType": "enum PredictionMarket.MarketStatus",
+            "internalType": "enum PredictionMarketV2.MarketStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -503,7 +503,7 @@
             "type": "bytes32"
           }
         ],
-        "internalType": "struct PredictionMarket.Market",
+        "internalType": "struct PredictionMarketV2.Market",
         "name": "",
         "type": "tuple"
       }
@@ -554,7 +554,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct PredictionMarket.Bet[]",
+        "internalType": "struct PredictionMarketV2.Bet[]",
         "name": "",
         "type": "tuple[]"
       }
@@ -634,7 +634,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct PredictionMarket.Bet[]",
+        "internalType": "struct PredictionMarketV2.Bet[]",
         "name": "",
         "type": "tuple[]"
       }
@@ -707,7 +707,7 @@
         "type": "bytes32"
       },
       {
-        "internalType": "enum PredictionMarket.MarketType",
+        "internalType": "enum PredictionMarketV2.MarketType",
         "name": "marketType",
         "type": "uint8"
       },
@@ -732,7 +732,7 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum PredictionMarket.MarketStatus",
+        "internalType": "enum PredictionMarketV2.MarketStatus",
         "name": "status",
         "type": "uint8"
       },

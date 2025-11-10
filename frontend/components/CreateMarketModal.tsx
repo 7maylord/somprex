@@ -1,56 +1,133 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
-import { useAccount, useWriteContract } from 'wagmi'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, usePublicClient } from 'wagmi'
 import { toast } from 'sonner'
+import { keccak256, encodePacked } from 'viem'
 import { MarketType } from '@/lib/types'
 import { PredictionMarketABI } from '@/abis'
-import { generateMarketId } from '@/utils/format'
 
 interface CreateMarketModalProps {
   onClose: () => void
 }
 
 export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
+  const publicClient = usePublicClient()
   const [marketType, setMarketType] = useState<MarketType>(MarketType.BLOCK)
   const [question, setQuestion] = useState('')
   const [duration, setDuration] = useState(24) // hours
   const [threshold, setThreshold] = useState('')
 
-  const { writeContract, isPending } = useWriteContract()
+  const { writeContract, data: hash, isPending, error } = useWriteContract()
+  const { isSuccess } = useWaitForTransactionReceipt({ hash })
+
+  // Handle successful transaction
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Market created successfully! 🎉', { id: 'create-market' })
+      setTimeout(() => onClose(), 1500)
+    }
+  }, [isSuccess, onClose])
+
+  // Handle transaction error
+  useEffect(() => {
+    if (error) {
+      console.error('Transaction error details:', error)
+
+      // Parse error message
+      let errorMsg = 'Transaction failed'
+      if (error.message) {
+        if (error.message.includes('Market already exists')) {
+          errorMsg = 'This market already exists. Try a different question.'
+        } else if (error.message.includes('Invalid resolution time')) {
+          errorMsg = 'Resolution time must be in the future'
+        } else if (error.message.includes('rejected')) {
+          errorMsg = 'Transaction rejected by user'
+        } else if (error.message.includes('insufficient funds')) {
+          errorMsg = 'Insufficient SOMI for gas fees'
+        } else {
+          errorMsg = error.message.slice(0, 100) // Truncate long messages
+        }
+      }
+
+      toast.error(errorMsg, { id: 'create-market' })
+    }
+  }, [error])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!isConnected) {
+      toast.error('Please connect your wallet')
+      return
+    }
 
     if (!question.trim()) {
       toast.error('Please enter a question')
       return
     }
 
+    if (!address) {
+      toast.error('Wallet address not found')
+      return
+    }
+
     try {
-      if (!address) {
-        toast.error('Please connect your wallet')
-        return
+      toast.loading('Preparing transaction...', { id: 'create-market' })
+
+      // Get current block to use blockchain time instead of Date.now()
+      // This is critical because Somnia's block.timestamp differs from real-world time
+      const block = await publicClient?.getBlock()
+      if (!block) {
+        throw new Error('Failed to fetch current block')
       }
 
-      const marketId = generateMarketId(address, Date.now(), question)
-      const resolutionTime = BigInt(Date.now() + duration * 3600 * 1000)
+      const currentBlockTime = Number(block.timestamp)
+
+      // Generate unique market ID using keccak256
+      const timestamp = BigInt(currentBlockTime)
+      const marketId = keccak256(
+        encodePacked(
+          ['address', 'uint256', 'string'],
+          [address, timestamp, question]
+        )
+      )
+
+      // Calculate resolution time based on BLOCKCHAIN time, not system time
+      const resolutionTimeSeconds = currentBlockTime + (duration * 3600)
+      const resolutionTime = BigInt(resolutionTimeSeconds)
+
+      // Use zero address for dataSourceId (can be updated based on market type)
       const dataSourceId = '0x0000000000000000000000000000000000000000000000000000000000000000' as `0x${string}`
-      
+
+      console.log('Creating market with:', {
+        marketId,
+        marketType,
+        question,
+        currentBlockTime,
+        resolutionTime: resolutionTimeSeconds,
+        durationHours: duration,
+        timeDifferenceSeconds: resolutionTimeSeconds - currentBlockTime,
+        dataSourceId,
+        contractAddress: process.env.NEXT_PUBLIC_MARKET_CONTRACT
+      })
+
+      toast.loading('Creating market...', { id: 'create-market' })
+
       writeContract({
-        address: (process.env.NEXT_PUBLIC_MARKET_CONTRACT) as `0x${string}`,
+        address: process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`,
         abi: PredictionMarketABI,
         functionName: 'createMarket',
         args: [marketId, marketType, question, resolutionTime, dataSourceId],
+        gas: BigInt(5000000), // 5M gas limit for Somnia testnet
       })
 
-      toast.success('Market created successfully!')
-      onClose()
-    } catch (error) {
-      console.error(error)
-      toast.error('Failed to create market')
+    } catch (err) {
+      console.error('Create market error:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create market'
+      toast.error(errorMessage, { id: 'create-market' })
     }
   }
 

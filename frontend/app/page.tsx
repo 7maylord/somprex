@@ -8,6 +8,8 @@ import BlockMarkets from '@/components/markets/BlockMarkets'
 import TransferMarkets from '@/components/markets/TransferMarkets'
 import GameMarkets from '@/components/markets/GameMarkets'
 import CreateMarketModal from '@/components/CreateMarketModal'
+import SomiBalance from '@/components/SomiBalance'
+import SomiFaucet from '@/components/SomiFaucet'
 
 export default function Home() {
   const { isConnected } = useAccount()
@@ -31,6 +33,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center space-x-4">
+              <SomiBalance />
               <Link href="/game">
                 <button className="btn-secondary flex items-center space-x-2">
                   <Trophy className="w-4 h-4" />
@@ -81,8 +84,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Stats and Faucet */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
@@ -109,6 +112,9 @@ export default function Home() {
               </div>
               <Trophy className="w-12 h-12 text-purple-500 opacity-20" />
             </div>
+          </div>
+          <div className="md:row-span-1">
+            <SomiFaucet />
           </div>
         </div>
 

@@ -3,12 +3,18 @@
 // Do not edit manually
 
 import PredictionMarketABI from './PredictionMarket.json';
+import SomiTokenABI from './SomiToken.json';
 import BossBattleGameABI from './BossBattleGame.json';
 
-export { PredictionMarketABI, BossBattleGameABI };
+export {
+  PredictionMarketABI,
+  SomiTokenABI,
+  BossBattleGameABI
+};
 
 export const ABIS = {
   PredictionMarket: PredictionMarketABI,
+  SomiToken: SomiTokenABI,
   BossBattleGame: BossBattleGameABI,
 } as const;
 
