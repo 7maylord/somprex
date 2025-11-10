@@ -2,7 +2,7 @@
   "name": "smart-contracts",
   "version": "1.0.0",
   "description": "Smart contracts for Somnia prediction market",
-  "type": "module",
+  
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js --network somniaTestnet",
@@ -21,9 +21,12 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.5",
     "@nomicfoundation/hardhat-toolbox-viem": "^5.0.1",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@types/node": "^22.19.0",
+    "ethers": "^5.8.0",
     "forge-std": "github:foundry-rs/forge-std#v1.9.4",
-    "hardhat": "^3.0.12",
+    "hardhat": "^2.27.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.8.0",
     "viem": "^2.38.6"
   },

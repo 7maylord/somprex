@@ -1,11 +1,6 @@
-import { ethers } from "hardhat";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const hre = require("hardhat");
+const fs = require("fs");
+const path = require("path");
 
 async function main() {
   console.log("\n========================================");
@@ -13,25 +8,25 @@ async function main() {
   console.log("========================================\n");
 
   // Get deployer
-  const [deployer] = await ethers.getSigners();
+  const [deployer] = await hre.ethers.getSigners();
   console.log("Deploying with account:", deployer.address);
   const balance = await deployer.getBalance();
-  console.log("Account balance:", ethers.utils.formatEther(balance), "SOMI");
+  console.log("Account balance:", hre.ethers.utils.formatEther(balance), "SOMI");
 
-  const network = await ethers.provider.getNetwork();
+  const network = await hre.ethers.provider.getNetwork();
   console.log("Chain ID:", network.chainId);
   console.log("========================================\n");
 
   // Deploy PredictionMarket
   console.log("[1/2] Deploying PredictionMarket...");
-  const PredictionMarket = await ethers.getContractFactory("PredictionMarket");
+  const PredictionMarket = await hre.ethers.getContractFactory("PredictionMarket");
   const predictionMarket = await PredictionMarket.deploy();
   await predictionMarket.deployed();
   console.log("      PredictionMarket deployed at:", predictionMarket.address, "\n");
 
   // Deploy BossBattleGame
   console.log("[2/2] Deploying BossBattleGame...");
-  const BossBattleGame = await ethers.getContractFactory("BossBattleGame");
+  const BossBattleGame = await hre.ethers.getContractFactory("BossBattleGame");
   const bossBattleGame = await BossBattleGame.deploy();
   await bossBattleGame.deployed();
   console.log("      BossBattleGame deployed at:", bossBattleGame.address, "\n");
