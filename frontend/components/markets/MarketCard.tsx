@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Clock, TrendingUp, Users } from 'lucide-react'
 import { formatTimeRemaining, formatTokenAmount, formatOdds, formatPercentage, getMarketTypeLabel } from '@/utils/format'
-import { useMarketOdds } from '@/hooks/useSDS'
 import type { Market } from '@/lib/types'
 import BetModal from './BetModal'
 
@@ -13,7 +12,27 @@ interface MarketCardProps {
 
 export default function MarketCard({ market }: MarketCardProps) {
   const [isBetModalOpen, setIsBetModalOpen] = useState(false)
-  const odds = useMarketOdds(market.optionPools[0], market.optionPools[1])
+
+  // Calculate odds locally instead of using SDS hook
+  const odds = useMemo(() => {
+    const yesPool = Number(market.optionPools[0])
+    const noPool = Number(market.optionPools[1])
+    const total = yesPool + noPool
+
+    if (total === 0) {
+      return { yes: 2.0, no: 2.0, yesProb: 0.5, noProb: 0.5 }
+    }
+
+    const yesProb = yesPool / total
+    const noProb = noPool / total
+
+    return {
+      yes: yesProb > 0 ? 1 / yesProb : 999,
+      no: noProb > 0 ? 1 / noProb : 999,
+      yesProb,
+      noProb
+    }
+  }, [market.optionPools])
 
   const isActive = market.status === 0 && Date.now() < Number(market.resolutionTime)
   const isResolved = market.status === 2

@@ -6,7 +6,6 @@ import { Gamepad2, Database, Swords } from 'lucide-react'
 import Link from 'next/link'
 import MarketCard from './MarketCard'
 import type { Market } from '@/lib/types'
-import { useBossDefeats } from '@/hooks/useSDS'
 import { PredictionMarketABI } from '@/abis'
 
 export default function GameMarkets() {
@@ -18,8 +17,6 @@ export default function GameMarkets() {
     abi: PredictionMarketABI,
     functionName: 'getActiveMarkets',
   })
-
-  const defeats = useBossDefeats(null, null, false) // SDS integration
 
   useEffect(() => {
     const fetchMarkets = async () => {
@@ -123,28 +120,6 @@ export default function GameMarkets() {
           </Link>
         </div>
       </div>
-
-      {/* Latest Defeats */}
-      {defeats.length > 0 && (
-        <div className="card mb-6">
-          <h3 className="font-semibold mb-3">🏆 Recent Boss Defeats</h3>
-          <div className="space-y-2">
-            {defeats.slice(0, 3).map((defeat, i) => (
-              <div
-                key={i}
-                className="bg-gray-700/50 rounded-lg p-3 flex justify-between items-center text-sm"
-              >
-                <span className="text-gray-400">
-                  Player defeated boss in {Number(defeat.timeTaken)}s
-                </span>
-                <span className="font-bold text-primary-400">
-                  {Number(defeat.totalDamage)} damage
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Markets Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

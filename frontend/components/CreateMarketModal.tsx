@@ -17,7 +17,8 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
   const publicClient = usePublicClient()
   const [marketType, setMarketType] = useState<MarketType>(MarketType.BLOCK)
   const [question, setQuestion] = useState('')
-  const [duration, setDuration] = useState(24) // hours
+  const [duration, setDuration] = useState(2) // duration value
+  const [timeUnit, setTimeUnit] = useState<'minutes' | 'hours'>('minutes') // time unit selector
   const [threshold, setThreshold] = useState('')
 
   const { writeContract, data: hash, isPending, error } = useWriteContract()
@@ -96,7 +97,9 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
       )
 
       // Calculate resolution time based on BLOCKCHAIN time, not system time
-      const resolutionTimeSeconds = currentBlockTime + (duration * 3600)
+      // Convert duration to seconds based on selected time unit
+      const durationInSeconds = timeUnit === 'minutes' ? duration * 60 : duration * 3600
+      const resolutionTimeSeconds = currentBlockTime + durationInSeconds
       const resolutionTime = BigInt(resolutionTimeSeconds)
 
       // Use zero address for dataSourceId (can be updated based on market type)
@@ -210,16 +213,32 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
 
           {/* Duration */}
           <div>
-            <label className="block text-sm font-medium mb-2">Duration (hours)</label>
-            <input
-              type="number"
-              value={duration}
-              onChange={(e) => setDuration(Number(e.target.value))}
-              min="1"
-              max="168"
-              className="input w-full"
-              required
-            />
+            <label className="block text-sm font-medium mb-2">
+              Resolution Time (when market can be resolved)
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                value={duration}
+                onChange={(e) => setDuration(Number(e.target.value))}
+                min="1"
+                max={timeUnit === 'minutes' ? 1440 : 168}
+                className="input flex-1"
+                placeholder={timeUnit === 'minutes' ? 'e.g., 2' : 'e.g., 24'}
+                required
+              />
+              <select
+                value={timeUnit}
+                onChange={(e) => setTimeUnit(e.target.value as 'minutes' | 'hours')}
+                className="input w-32"
+              >
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+              </select>
+            </div>
+            <p className="text-xs text-gray-400 mt-1">
+              Market will resolve {duration} {timeUnit} from now
+            </p>
           </div>
 
           {/* Threshold (for block/transfer markets) */}
@@ -242,9 +261,9 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
           {/* Info */}
           <div className="bg-primary-500/10 border border-primary-500/30 rounded-lg p-4">
             <p className="text-sm text-gray-300">
-              {marketType === MarketType.BLOCK && '🔷 This market resolves based on blockchain metrics'}
-              {marketType === MarketType.TRANSFER && '🔷 This market resolves based on token transfers'}
-              {marketType === MarketType.GAME && '🔷 This market resolves based on game events'}
+              {marketType === MarketType.BLOCK && '🔷 Resolution: Checks latest block transaction count after resolution time'}
+              {marketType === MarketType.TRANSFER && '🔷 Resolution: Triggers on first SOMI transfer AFTER resolution time'}
+              {marketType === MarketType.GAME && '🔷 Resolution: Triggers on first boss defeat AFTER resolution time'}
             </p>
           </div>
 

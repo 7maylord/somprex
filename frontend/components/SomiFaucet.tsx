@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Coins, Clock, CheckCircle } from 'lucide-react'
+import { useEffect } from 'react'
+import { Coins } from 'lucide-react'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi'
 import { formatEther } from 'viem'
 import { toast } from 'sonner'
@@ -9,7 +9,6 @@ import { SomiTokenABI } from '@/abis'
 
 export default function SomiFaucet() {
   const { address, isConnected } = useAccount()
-  const [timeRemaining, setTimeRemaining] = useState<number>(0)
 
   const { writeContract, data: hash, isPending } = useWriteContract()
   const { isSuccess } = useWaitForTransactionReceipt({ hash })
@@ -22,73 +21,14 @@ export default function SomiFaucet() {
     args: address ? [address] : undefined,
   })
 
-  // Check if can claim from faucet
-  const { data: canClaim, refetch: refetchCanClaim } = useReadContract({
-    address: process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`,
-    abi: SomiTokenABI,
-    functionName: 'canClaimFromFaucet',
-    args: address ? [address] : undefined,
-  })
-
-  // Get time until next claim
-  const { data: timeUntilNext, refetch: refetchTime } = useReadContract({
-    address: process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`,
-    abi: SomiTokenABI,
-    functionName: 'timeUntilNextClaim',
-    args: address ? [address] : undefined,
-  })
-
-  // Update countdown timer
-  useEffect(() => {
-    if (timeUntilNext !== undefined) {
-      setTimeRemaining(Number(timeUntilNext))
-    }
-  }, [timeUntilNext])
-
-  // Countdown effect
-  useEffect(() => {
-    if (timeRemaining > 0) {
-      const timer = setTimeout(() => {
-        setTimeRemaining(prev => Math.max(0, prev - 1))
-      }, 1000)
-      return () => clearTimeout(timer)
-    } else {
-      // Refetch when timer hits zero
-      refetchCanClaim()
-    }
-  }, [timeRemaining, refetchCanClaim])
-
-  // Handle successful claim
+  // Handle successful mint
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Successfully claimed 100 SOMI! 🎉')
+      toast.success('Successfully minted 1000 SOMI! 🎉', { id: 'mint-somi' })
       refetchBalance()
-      refetchCanClaim()
-      refetchTime()
     }
-  }, [isSuccess, refetchBalance, refetchCanClaim, refetchTime])
+  }, [isSuccess, refetchBalance])
 
-  const handleClaim = async () => {
-    if (!isConnected) {
-      toast.error('Please connect your wallet')
-      return
-    }
-
-    try {
-      toast.loading('Claiming SOMI tokens...', { id: 'faucet-claim' })
-
-      writeContract({
-        address: process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`,
-        abi: SomiTokenABI,
-        functionName: 'claimFromFaucet',
-        gas: BigInt(150000), // 150k gas for faucet claim
-      })
-    } catch (err: any) {
-      console.error('Faucet claim error:', err)
-      const errorMessage = err instanceof Error ? err.message : 'Failed to claim tokens'
-      toast.error(errorMessage, { id: 'faucet-claim' })
-    }
-  }
 
   const handleMint = async () => {
     if (!isConnected || !address) {
@@ -113,20 +53,6 @@ export default function SomiFaucet() {
       console.error('Mint error:', err)
       const errorMessage = err instanceof Error ? err.message : 'Failed to mint tokens'
       toast.error(errorMessage, { id: 'mint-somi' })
-    }
-  }
-
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const minutes = Math.floor((seconds % 3600) / 60)
-    const secs = seconds % 60
-
-    if (hours > 0) {
-      return `${hours}h ${minutes}m`
-    } else if (minutes > 0) {
-      return `${minutes}m ${secs}s`
-    } else {
-      return `${secs}s`
     }
   }
 

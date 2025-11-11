@@ -5,7 +5,6 @@ import { useReadContract } from 'wagmi'
 import { ArrowRightLeft, Database } from 'lucide-react'
 import MarketCard from './MarketCard'
 import type { Market } from '@/lib/types'
-import { useTokenTransfers } from '@/hooks/useSDS'
 import { PredictionMarketABI } from '@/abis'
 
 const SOMI_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000' as `0x${string}` // Replace with actual
@@ -19,8 +18,6 @@ export default function TransferMarkets() {
     abi: PredictionMarketABI,
     functionName: 'getActiveMarkets',
   })
-
-  const { latestTransfer } = useTokenTransfers(null, null, SOMI_TOKEN_ADDRESS, false) // SDS integration
 
   useEffect(() => {
     const fetchMarkets = async () => {
@@ -82,33 +79,10 @@ export default function TransferMarkets() {
   }
 
   return (
-    <div>
-      {/* Live Transfer Stats */}
-      {latestTransfer && (
-        <div className="card mb-6 bg-gradient-to-r from-green-900/20 to-emerald-900/20 border-green-500/30">
-          <div className="flex items-center space-x-2 mb-2">
-            <ArrowRightLeft className="w-5 h-5 text-green-500 animate-pulse" />
-            <span className="font-semibold">Latest Transfer</span>
-          </div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <div className="text-gray-400">Amount</div>
-              <div className="font-bold">{(Number(latestTransfer.amount) / 1e18).toFixed(2)} SOMI</div>
-            </div>
-            <div>
-              <div className="text-gray-400">Time</div>
-              <div className="font-bold">Just now</div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Markets Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {markets.map((market) => (
-          <MarketCard key={market.marketId} market={market} />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {markets.map((market) => (
+        <MarketCard key={market.marketId} market={market} />
+      ))}
     </div>
   )
 }

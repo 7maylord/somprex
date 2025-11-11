@@ -5,7 +5,6 @@ import { useReadContract } from 'wagmi'
 import { Activity, Database } from 'lucide-react'
 import MarketCard from './MarketCard'
 import type { Market } from '@/lib/types'
-import { useBlockData } from '@/hooks/useSDS'
 import { PredictionMarketABI } from '@/abis'
 
 export default function BlockMarkets() {
@@ -17,8 +16,6 @@ export default function BlockMarkets() {
     abi: PredictionMarketABI,
     functionName: 'getActiveMarkets',
   })
-
-  const { latestBlock } = useBlockData(null, null, false) // SDS integration
 
   useEffect(() => {
     const fetchMarkets = async () => {
@@ -97,37 +94,10 @@ export default function BlockMarkets() {
   }
 
   return (
-    <div>
-      {/* Live Block Stats */}
-      {latestBlock && (
-        <div className="card mb-6 bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-blue-500/30">
-          <div className="flex items-center space-x-2 mb-2">
-            <Activity className="w-5 h-5 text-blue-500 animate-pulse" />
-            <span className="font-semibold">Live Block Data</span>
-          </div>
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div>
-              <div className="text-gray-400">Block #</div>
-              <div className="font-bold">{latestBlock.blockNumber.toString()}</div>
-            </div>
-            <div>
-              <div className="text-gray-400">TX Count</div>
-              <div className="font-bold">{latestBlock.txCount.toString()}</div>
-            </div>
-            <div>
-              <div className="text-gray-400">Gas Used</div>
-              <div className="font-bold">{(Number(latestBlock.gasUsed) / 1e6).toFixed(2)}M</div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Markets Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {markets.map((market) => (
-          <MarketCard key={market.marketId} market={market} />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {markets.map((market) => (
+        <MarketCard key={market.marketId} market={market} />
+      ))}
     </div>
   )
 }
