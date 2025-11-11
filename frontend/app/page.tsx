@@ -26,7 +26,7 @@ export default function Home() {
               <div className="flex items-center space-x-2">
                 <TrendingUp className="w-8 h-8 text-primary-500" />
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-                  Somnia Markets
+                  Predex
                 </h1>
               </div>
               <span className="badge badge-primary">Oracle-Free</span>
@@ -48,7 +48,7 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
-        <div className="card mb-8 bg-gradient-to-r from-primary-900/20 to-purple-900/20 border-primary-500/30">
+        <div className="card mb-8 bg-gradient-to-r from-primary-900/20 to-blue-900/20 border-primary-500/30">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div>
               <h2 className="text-3xl font-bold mb-2">
@@ -67,7 +67,7 @@ export default function Home() {
                   <span className="text-sm">Real-time odds</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Trophy className="w-5 h-5 text-purple-500" />
+                  <Trophy className="w-5 h-5 text-blue-500" />
                   <span className="text-sm">3 market types</span>
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function Home() {
                 <p className="text-gray-400 text-sm">Active Bettors</p>
                 <p className="text-3xl font-bold mt-1">156</p>
               </div>
-              <Trophy className="w-12 h-12 text-purple-500 opacity-20" />
+              <Trophy className="w-12 h-12 text-blue-500 opacity-20" />
             </div>
           </div>
           <div className="md:row-span-1">

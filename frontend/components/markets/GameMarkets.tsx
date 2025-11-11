@@ -42,6 +42,8 @@ export default function GameMarkets() {
             totalPool: BigInt('10000000000000000000'),
             optionPools: [BigInt('6000000000000000000'), BigInt('4000000000000000000')],
             dataSourceId: '0x0000' as `0x${string}`,
+            threshold: BigInt(0),
+            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
           },
           {
             marketId: '0x0005' as `0x${string}`,
@@ -55,6 +57,8 @@ export default function GameMarkets() {
             totalPool: BigInt('4000000000000000000'),
             optionPools: [BigInt('2200000000000000000'), BigInt('1800000000000000000')],
             dataSourceId: '0x0000' as `0x${string}`,
+            threshold: BigInt(0),
+            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
           },
         ]
 
@@ -100,11 +104,11 @@ export default function GameMarkets() {
   return (
     <div>
       {/* Call to Action */}
-      <div className="card mb-6 bg-gradient-to-r from-purple-900/20 to-pink-900/20 border-purple-500/30">
+      <div className="card mb-6 bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-blue-500/30">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center space-x-2 mb-2">
-              <Swords className="w-5 h-5 text-purple-500" />
+              <Swords className="w-5 h-5 text-blue-500" />
               <span className="font-semibold">Generate Events</span>
             </div>
             <p className="text-sm text-gray-400">

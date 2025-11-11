@@ -130,7 +130,7 @@ export default function SomiFaucet() {
     }
   }
 
-  const balanceFormatted = balance ? formatEther(balance) : '0'
+  const balanceFormatted = balance ? formatEther(balance as bigint) : '0'
 
   return (
     <div className="card">
@@ -140,47 +140,18 @@ export default function SomiFaucet() {
       </div>
 
       <p className="text-gray-400 text-sm mb-6">
-        Get free SOMI tokens to test the prediction market. Claim 100 SOMI every 24 hours or mint unlimited tokens instantly.
+        Get free SOMI tokens to test the prediction market.
       </p>
-
-      {/* Balance */}
-      <div className="bg-gray-700/50 rounded-lg p-4 mb-6">
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-400">Your Balance:</span>
-          <span className="text-2xl font-bold text-primary-400">
-            {parseFloat(balanceFormatted).toFixed(2)} SOMI
-          </span>
-        </div>
-      </div>
 
       {/* Faucet Claim */}
       <div className="space-y-4">
-        {canClaim ? (
-          <button
-            onClick={handleClaim}
-            disabled={isPending || !isConnected}
-            className="btn-primary w-full flex items-center justify-center space-x-2"
-          >
-            <CheckCircle className="w-5 h-5" />
-            <span>{isPending ? 'Claiming...' : 'Claim 100 SOMI'}</span>
-          </button>
-        ) : (
-          <button
-            disabled
-            className="btn-secondary w-full flex items-center justify-center space-x-2 opacity-50 cursor-not-allowed"
-          >
-            <Clock className="w-5 h-5" />
-            <span>Next claim in {formatTime(timeRemaining)}</span>
-          </button>
-        )}
-
         {/* Instant Mint (for testing) */}
         <button
           onClick={handleMint}
           disabled={isPending || !isConnected}
           className="btn-secondary w-full"
         >
-          {isPending ? 'Minting...' : 'Instant Mint 1000 SOMI (Testing)'}
+          {isPending ? 'Minting...' : 'Mint SOMI'}
         </button>
       </div>
 

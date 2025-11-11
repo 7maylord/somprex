@@ -43,6 +43,8 @@ export default function BlockMarkets() {
             totalPool: BigInt('5000000000000000000'),
             optionPools: [BigInt('3000000000000000000'), BigInt('2000000000000000000')],
             dataSourceId: '0x0000' as `0x${string}`,
+            threshold: BigInt(100),
+            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
           },
           {
             marketId: '0x0002' as `0x${string}`,
@@ -56,6 +58,8 @@ export default function BlockMarkets() {
             totalPool: BigInt('8000000000000000000'),
             optionPools: [BigInt('5000000000000000000'), BigInt('3000000000000000000')],
             dataSourceId: '0x0000' as `0x${string}`,
+            threshold: BigInt(1),
+            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
           },
         ]
 

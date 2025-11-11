@@ -42,9 +42,15 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
 
   // Check if approval is needed when bet amount changes
   useEffect(() => {
-    if (betAmount && allowance !== undefined) {
-      const amountInWei = parseEther(betAmount)
-      setNeedsApproval(allowance < amountInWei)
+    if (!betAmount) return
+    if (allowance === undefined || allowance === null) return
+    const amountInWei = parseEther(betAmount)
+    try {
+      const currentAllowance = allowance as unknown as bigint
+      setNeedsApproval(currentAllowance < amountInWei)
+    } catch {
+      // Fallback: require approval if type unexpected
+      setNeedsApproval(true)
     }
   }, [betAmount, allowance])
 
@@ -150,11 +156,16 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
     }
 
     // Check balance
-    if (balance !== undefined) {
+    if (balance !== undefined && balance !== null) {
       const amountInWei = parseEther(betAmount)
-      if (balance < amountInWei) {
-        toast.error('Insufficient SOMI balance')
-        return
+      try {
+        const currentBalance = balance as unknown as bigint
+        if (currentBalance < amountInWei) {
+          toast.error('Insufficient SOMI balance')
+          return
+        }
+      } catch {
+        // If balance type is unexpected, skip strict compare and continue
       }
     }
 
@@ -192,8 +203,24 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
       )
     : BigInt(0)
 
-  const balanceFormatted = balance ? formatEther(balance) : '0'
-  const hasInsufficientBalance = balance !== undefined && betAmount && parseEther(betAmount) > balance
+  const balanceFormatted = balance !== undefined && balance !== null
+    ? (() => {
+        try {
+          return formatEther(balance as unknown as bigint)
+        } catch {
+          return '0'
+        }
+      })()
+    : '0'
+  const hasInsufficientBalance = (() => {
+    if (balance === undefined || balance === null || !betAmount) return false
+    try {
+      const currentBalance = balance as unknown as bigint
+      return parseEther(betAmount) > currentBalance
+    } catch {
+      return false
+    }
+  })()
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">

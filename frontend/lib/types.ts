@@ -25,6 +25,8 @@ export interface Market {
   totalPool: bigint;
   optionPools: [bigint, bigint];
   dataSourceId: Hex;
+  threshold: bigint;
+  thresholdToken: Hex;
 }
 
 export interface Bet {

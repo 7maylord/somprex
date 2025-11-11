@@ -43,6 +43,8 @@ export default function TransferMarkets() {
             totalPool: BigInt('6000000000000000000'),
             optionPools: [BigInt('3500000000000000000'), BigInt('2500000000000000000')],
             dataSourceId: '0x0000' as `0x${string}`,
+            threshold: BigInt(1000),
+            thresholdToken: process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`,
           },
         ]
 

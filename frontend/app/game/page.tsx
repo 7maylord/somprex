@@ -1,24 +1,83 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, usePublicClient } from 'wagmi'
 import { ArrowLeft, Sword, Heart, Clock, Trophy, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { parseEther } from 'viem'
+import { parseEther, decodeEventLog } from 'viem'
 import { BossBattleGameABI } from '@/abis'
 
 export default function GamePage() {
   const { isConnected, address } = useAccount()
-  const [gameState, setGameState] = useState<'idle' | 'playing' | 'victory' | 'defeat'>('idle')
+  const publicClient = usePublicClient()
+  const [gameState, setGameState] = useState<'idle' | 'starting' | 'playing' | 'victory' | 'defeat'>('idle')
   const [bossHp, setBossHp] = useState(1000)
   const [playerHp, setPlayerHp] = useState(100)
   const [timeLeft, setTimeLeft] = useState(120)
   const [damage, setDamage] = useState(0)
-  const [sessionId, setSessionId] = useState<string | null>(null)
+  const [sessionId, setSessionId] = useState<`0x${string}` | null>(null)
+  const [startTime, setStartTime] = useState<number>(0)
 
-  const { writeContract, data: hash } = useWriteContract()
+  const { writeContract, data: hash, reset: resetWrite } = useWriteContract()
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash })
+
+  // Handle startGame transaction success
+  useEffect(() => {
+    if (isSuccess && gameState === 'starting' && hash) {
+      // Extract sessionId from transaction receipt
+      const extractSessionId = async () => {
+        try {
+          const receipt = await publicClient?.getTransactionReceipt({ hash })
+
+          if (!receipt || !receipt.logs) {
+            toast.error('Failed to get session ID')
+            setGameState('idle')
+            return
+          }
+
+          // Find GameStarted event
+          for (const log of receipt.logs) {
+            try {
+              const decoded = decodeEventLog({
+                abi: BossBattleGameABI,
+                data: log.data,
+                topics: log.topics,
+              })
+
+              if (decoded.eventName === 'GameStarted') {
+                const extractedSessionId = decoded.args.sessionId as `0x${string}`
+                console.log('✅ Game started with sessionId:', extractedSessionId)
+
+                setSessionId(extractedSessionId)
+                setGameState('playing')
+                setStartTime(Date.now())
+                setBossHp(1000)
+                setPlayerHp(100)
+                setTimeLeft(120)
+                setDamage(0)
+                toast.success('Game started! Defeat the boss!')
+                resetWrite()
+                return
+              }
+            } catch (e) {
+              // Not the event we're looking for, continue
+              continue
+            }
+          }
+
+          toast.error('Failed to extract session ID from transaction')
+          setGameState('idle')
+        } catch (error) {
+          console.error('Error extracting sessionId:', error)
+          toast.error('Failed to start game')
+          setGameState('idle')
+        }
+      }
+
+      extractSessionId()
+    }
+  }, [isSuccess, gameState, hash, publicClient, resetWrite])
 
   // Timer countdown
   useEffect(() => {
@@ -51,49 +110,72 @@ export default function GamePage() {
     }
 
     try {
-     
+      toast.loading('Starting game...', { id: 'start-game' })
+      setGameState('starting')
+
       writeContract({
         address: (process.env.NEXT_PUBLIC_GAME_CONTRACT) as `0x${string}`,
         abi: BossBattleGameABI,
         functionName: 'startGame',
         args: [1], // boss level
-      }) 
+        gas: BigInt(500000), // 500k gas
+      })
 
-      setGameState('playing')
-      setBossHp(1000)
-      setPlayerHp(100)
-      setTimeLeft(120)
-      setDamage(0)
-      setSessionId(`session-${Date.now()}`)
-      toast.success('Game started! Defeat the boss!')
+      toast.dismiss('start-game')
     } catch (error) {
       console.error(error)
       toast.error('Failed to start game')
+      setGameState('idle')
     }
   }
 
   const attack = async () => {
     if (gameState !== 'playing') return
+    if (!sessionId) {
+      toast.error('No active game session')
+      return
+    }
 
     const attackDamage = Math.floor(Math.random() * 100) + 50 // 50-150 damage
     const bossDamage = Math.floor(Math.random() * 20) + 10 // 10-30 damage
 
-    setBossHp(prev => Math.max(0, prev - attackDamage))
-    setPlayerHp(prev => Math.max(0, prev - bossDamage))
+    // Update UI optimistically
+    const newBossHp = Math.max(0, bossHp - attackDamage)
+    const newPlayerHp = Math.max(0, playerHp - bossDamage)
+
+    setBossHp(newBossHp)
+    setPlayerHp(newPlayerHp)
     setDamage(prev => prev + attackDamage)
 
-    if (playerHp - bossDamage <= 0) {
+    // Check player defeat
+    if (newPlayerHp <= 0) {
       setGameState('defeat')
       toast.error('You were defeated!')
-    } 
-    writeContract({
-      address: (process.env.NEXT_PUBLIC_GAME_CONTRACT) as `0x${string}`,
-      abi: BossBattleGameABI,
-      functionName: 'dealDamage',
-      args: [sessionId, attackDamage],
-    })
+      return
+    }
 
-   
+    // Call contract
+    try {
+      writeContract({
+        address: (process.env.NEXT_PUBLIC_GAME_CONTRACT) as `0x${string}`,
+        abi: BossBattleGameABI,
+        functionName: 'dealDamage',
+        args: [sessionId, BigInt(attackDamage)],
+        gas: BigInt(300000), // 300k gas
+      })
+
+      // Check boss defeat (contract will automatically emit BossDefeated event)
+      if (newBossHp <= 0) {
+        console.log('🎉 Boss defeated! BossDefeated event will be emitted by contract')
+      }
+    } catch (error) {
+      console.error('Attack failed:', error)
+      // Revert UI changes on error
+      setBossHp(bossHp)
+      setPlayerHp(playerHp)
+      setDamage(prev => prev - attackDamage)
+      toast.error('Attack failed')
+    }
   }
 
   const resetGame = () => {
@@ -106,7 +188,7 @@ export default function GamePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-950 to-gray-900">
       {/* Header */}
       <header className="border-b border-gray-700 bg-gray-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,7 +209,7 @@ export default function GamePage() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Game Info */}
-        <div className="card mb-8 bg-gradient-to-r from-purple-900/30 to-red-900/30 border-purple-500/30">
+        <div className="card mb-8 bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border-blue-500/30">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-2">⚔️ Epic Boss Battle</h2>
             <p className="text-gray-400">
@@ -136,7 +218,7 @@ export default function GamePage() {
           </div>
         </div>
 
-        {gameState === 'idle' && (
+        {(gameState === 'idle' || gameState === 'starting') && (
           <div className="card text-center">
             <div className="mb-8">
               <div className="text-8xl mb-4">🐉</div>
@@ -145,9 +227,13 @@ export default function GamePage() {
                 You have 2 minutes to defeat the boss with 1000 HP
               </p>
             </div>
-            <button onClick={startGame} className="btn-primary text-lg px-8 py-3">
+            <button
+              onClick={startGame}
+              className="btn-primary text-lg px-8 py-3"
+              disabled={gameState === 'starting' || isConfirming}
+            >
               <Sword className="w-5 h-5 inline mr-2" />
-              Start Battle
+              {gameState === 'starting' || isConfirming ? 'Starting Game...' : 'Start Battle'}
             </button>
           </div>
         )}

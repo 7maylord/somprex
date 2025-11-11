@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-400: #8b5cf6;
-  --color-primary-500: #7c3aed;
-  --color-primary-600: #6d28d9;
-  --color-primary-700: #5b21b6;
-  --color-primary-900: #4c1d95;
+  /* Predex dark blue palette (inspired by Polymarket) */
+  --color-primary-400: #60a5fa; /* blue-400 */
+  --color-primary-500: #3b82f6; /* blue-500 */
+  --color-primary-600: #2563eb; /* blue-600 */
+  --color-primary-700: #1d4ed8; /* blue-700 */
+  --color-primary-900: #0f172a; /* slate-900 */
 }
 
 @layer base {

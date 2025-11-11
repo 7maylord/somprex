@@ -31,6 +31,8 @@ contract PredictionMarket is Ownable, ReentrancyGuard {
         uint256 totalPool;
         uint256[2] optionPools; // [YES pool, NO pool]
         bytes32 dataSourceId; // SDS stream identifier
+        uint256 threshold; // Optional: for BLOCK/TRANSFER markets (0 if not used)
+        address thresholdToken; // Optional: for TRANSFER markets (address(0) if not used)
     }
 
     // Bet Structure
@@ -68,7 +70,9 @@ contract PredictionMarket is Ownable, ReentrancyGuard {
         MarketType marketType,
         string question,
         address indexed creator,
-        bytes32 dataSourceId
+        bytes32 dataSourceId,
+        uint256 threshold,
+        address thresholdToken
     );
 
     event BetPlaced(
@@ -123,13 +127,17 @@ contract PredictionMarket is Ownable, ReentrancyGuard {
 
     /**
      * @dev Create a new prediction market
+     * @param _threshold Optional: for BLOCK markets (tx count) or TRANSFER markets (amount). Use 0 for GAME markets.
+     * @param _thresholdToken Optional: for TRANSFER markets, specify token address. Use address(0) for BLOCK/GAME markets.
      */
     function createMarket(
         bytes32 _marketId,
         MarketType _marketType,
         string memory _question,
         uint256 _resolutionTime,
-        bytes32 _dataSourceId
+        bytes32 _dataSourceId,
+        uint256 _threshold,
+        address _thresholdToken
     ) external returns (bytes32) {
         require(markets[_marketId].marketId == bytes32(0), "Market already exists");
         require(_resolutionTime > block.timestamp, "Invalid resolution time");
@@ -146,7 +154,9 @@ contract PredictionMarket is Ownable, ReentrancyGuard {
             winningOption: 0,
             totalPool: 0,
             optionPools: [uint256(0), uint256(0)],
-            dataSourceId: _dataSourceId
+            dataSourceId: _dataSourceId,
+            threshold: _threshold,
+            thresholdToken: _thresholdToken
         });
 
         markets[_marketId] = newMarket;
@@ -157,7 +167,9 @@ contract PredictionMarket is Ownable, ReentrancyGuard {
             _marketType,
             _question,
             msg.sender,
-            _dataSourceId
+            _dataSourceId,
+            _threshold,
+            _thresholdToken
         );
 
         return _marketId;

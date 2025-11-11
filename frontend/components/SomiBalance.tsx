@@ -23,7 +23,7 @@ export default function SomiBalance() {
     return null
   }
 
-  const balanceFormatted = balance ? parseFloat(formatEther(balance)).toFixed(2) : '0.00'
+  const balanceFormatted = balance ? parseFloat(formatEther(balance as bigint)).toFixed(2) : '0.00'
 
   return (
     <div className="flex items-center space-x-2 bg-primary-500/10 border border-primary-500/30 rounded-lg px-4 py-2">

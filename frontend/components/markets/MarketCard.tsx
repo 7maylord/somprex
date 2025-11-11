@@ -65,7 +65,7 @@ export default function MarketCard({ market }: MarketCardProps) {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Users className="w-4 h-4 text-purple-500" />
+            <Users className="w-4 h-4 text-blue-500" />
             <div>
               <div className="text-gray-400 text-xs">Bets</div>
               <div className="font-semibold">--</div>

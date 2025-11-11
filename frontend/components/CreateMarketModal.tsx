@@ -102,6 +102,14 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
       // Use zero address for dataSourceId (can be updated based on market type)
       const dataSourceId = '0x0000000000000000000000000000000000000000000000000000000000000000' as `0x${string}`
 
+      // Threshold: optional, defaults to 0 for GAME markets
+      const thresholdValue = threshold ? BigInt(threshold) : BigInt(0)
+
+      // ThresholdToken: for TRANSFER markets, use SOMI token address, otherwise zero address
+      const thresholdTokenAddress = marketType === MarketType.TRANSFER
+        ? (process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`)
+        : '0x0000000000000000000000000000000000000000' as `0x${string}`
+
       console.log('Creating market with:', {
         marketId,
         marketType,
@@ -111,6 +119,8 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
         durationHours: duration,
         timeDifferenceSeconds: resolutionTimeSeconds - currentBlockTime,
         dataSourceId,
+        threshold: thresholdValue.toString(),
+        thresholdToken: thresholdTokenAddress,
         contractAddress: process.env.NEXT_PUBLIC_MARKET_CONTRACT
       })
 
@@ -120,7 +130,7 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
         address: process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`,
         abi: PredictionMarketABI,
         functionName: 'createMarket',
-        args: [marketId, marketType, question, resolutionTime, dataSourceId],
+        args: [marketId, marketType, question, resolutionTime, dataSourceId, thresholdValue, thresholdTokenAddress],
         gas: BigInt(5000000), // 5M gas limit for Somnia testnet
       })
 

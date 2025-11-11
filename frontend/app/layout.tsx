@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Somnia Prediction Markets',
-  description: 'Multi-event prediction markets powered by Somnia Data Streams',
+  title: 'Predex',
+  description: 'Predex — oracle-free prediction markets powered by on-chain data',
 }
 
 export default function RootLayout({
