@@ -1,0 +1,2341 @@
+{
+    "abi": [
+        {
+            "type": "constructor",
+            "inputs": [
+                {
+                    "name": "_somiToken",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "BASIS_POINTS",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "activeMarkets",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "authorizedResolvers",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "cancelMarket",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "claimWinnings",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "collectedFees",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "createMarket",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "_marketType",
+                    "type": "uint8",
+                    "internalType": "enum PredictionMarket.MarketType"
+                },
+                {
+                    "name": "_question",
+                    "type": "string",
+                    "internalType": "string"
+                },
+                {
+                    "name": "_resolutionTime",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "_dataSourceId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "_threshold",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "_thresholdToken",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "getActiveMarkets",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32[]",
+                    "internalType": "bytes32[]"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getMarket",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "tuple",
+                    "internalType": "struct PredictionMarket.Market",
+                    "components": [
+                        {
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "internalType": "bytes32"
+                        },
+                        {
+                            "name": "marketType",
+                            "type": "uint8",
+                            "internalType": "enum PredictionMarket.MarketType"
+                        },
+                        {
+                            "name": "question",
+                            "type": "string",
+                            "internalType": "string"
+                        },
+                        {
+                            "name": "creator",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "createdAt",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "resolutionTime",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "status",
+                            "type": "uint8",
+                            "internalType": "enum PredictionMarket.MarketStatus"
+                        },
+                        {
+                            "name": "winningOption",
+                            "type": "uint8",
+                            "internalType": "uint8"
+                        },
+                        {
+                            "name": "totalPool",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "optionPools",
+                            "type": "uint256[2]",
+                            "internalType": "uint256[2]"
+                        },
+                        {
+                            "name": "dataSourceId",
+                            "type": "bytes32",
+                            "internalType": "bytes32"
+                        },
+                        {
+                            "name": "threshold",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "thresholdToken",
+                            "type": "address",
+                            "internalType": "address"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getMarketBets",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "tuple[]",
+                    "internalType": "struct PredictionMarket.Bet[]",
+                    "components": [
+                        {
+                            "name": "bettor",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "internalType": "bytes32"
+                        },
+                        {
+                            "name": "option",
+                            "type": "uint8",
+                            "internalType": "uint8"
+                        },
+                        {
+                            "name": "amount",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "timestamp",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "claimed",
+                            "type": "bool",
+                            "internalType": "bool"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getOdds",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "yesOdds",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "noOdds",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getUserMarketBets",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "_user",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "tuple[]",
+                    "internalType": "struct PredictionMarket.Bet[]",
+                    "components": [
+                        {
+                            "name": "bettor",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "internalType": "bytes32"
+                        },
+                        {
+                            "name": "option",
+                            "type": "uint8",
+                            "internalType": "uint8"
+                        },
+                        {
+                            "name": "amount",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "timestamp",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "claimed",
+                            "type": "bool",
+                            "internalType": "bool"
+                        }
+                    ]
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "marketBets",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "bettor",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "option",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "claimed",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "markets",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "marketType",
+                    "type": "uint8",
+                    "internalType": "enum PredictionMarket.MarketType"
+                },
+                {
+                    "name": "question",
+                    "type": "string",
+                    "internalType": "string"
+                },
+                {
+                    "name": "creator",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "createdAt",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "resolutionTime",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8",
+                    "internalType": "enum PredictionMarket.MarketStatus"
+                },
+                {
+                    "name": "winningOption",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "totalPool",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "dataSourceId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "threshold",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "thresholdToken",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "maxBetAmount",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "minBetAmount",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "owner",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "placeBet",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "_option",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "_amount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "platformFee",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "refundBets",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "renounceOwnership",
+            "inputs": [],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "resolveMarket",
+            "inputs": [
+                {
+                    "name": "_marketId",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "_winningOption",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "setBetLimits",
+            "inputs": [
+                {
+                    "name": "_min",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "_max",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "setPlatformFee",
+            "inputs": [
+                {
+                    "name": "_fee",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "setResolver",
+            "inputs": [
+                {
+                    "name": "_resolver",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "_authorized",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "somiToken",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "contract IERC20"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "transferOwnership",
+            "inputs": [
+                {
+                    "name": "newOwner",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "userBetIndices",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "userBets",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                },
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "withdrawFees",
+            "inputs": [],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "event",
+            "name": "BetLimitsUpdated",
+            "inputs": [
+                {
+                    "name": "minAmount",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "maxAmount",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "BetPlaced",
+            "inputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "bettor",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "option",
+                    "type": "uint8",
+                    "indexed": false,
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "BetsRefunded",
+            "inputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "totalRefunded",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "FeesWithdrawn",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "MarketCancelled",
+            "inputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "MarketCreated",
+            "inputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "marketType",
+                    "type": "uint8",
+                    "indexed": false,
+                    "internalType": "enum PredictionMarket.MarketType"
+                },
+                {
+                    "name": "question",
+                    "type": "string",
+                    "indexed": false,
+                    "internalType": "string"
+                },
+                {
+                    "name": "creator",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "dataSourceId",
+                    "type": "bytes32",
+                    "indexed": false,
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "threshold",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                },
+                {
+                    "name": "thresholdToken",
+                    "type": "address",
+                    "indexed": false,
+                    "internalType": "address"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "MarketResolved",
+            "inputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "winningOption",
+                    "type": "uint8",
+                    "indexed": false,
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "totalPool",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "OwnershipTransferred",
+            "inputs": [
+                {
+                    "name": "previousOwner",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "newOwner",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "PlatformFeeUpdated",
+            "inputs": [
+                {
+                    "name": "newFee",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "ResolverUpdated",
+            "inputs": [
+                {
+                    "name": "resolver",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "authorized",
+                    "type": "bool",
+                    "indexed": false,
+                    "internalType": "bool"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "WinningsClaimed",
+            "inputs": [
+                {
+                    "name": "marketId",
+                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32"
+                },
+                {
+                    "name": "bettor",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "error",
+            "name": "OwnableInvalidOwner",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "OwnableUnauthorizedAccount",
+            "inputs": [
+                {
+                    "name": "account",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "error",
+            "name": "ReentrancyGuardReentrantCall",
+            "inputs": []
+        },
+        {
+            "type": "error",
+            "name": "SafeERC20FailedOperation",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ]
+        }
+    ],
+    "bytecode": {
+        "object": "0x60a03461016c57601f6200241c38819003918201601f19168301916001600160401b038311848410176101705780849260209460405283398101031261016c57516001600160a01b03908181169081900361016c573315610154575f8054336001600160a01b0319821681178355604051949293929091167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08480a36001805560c8600755662386f26fc1000060085568056bc75e2d6310000060095580156101125760409250608052338152600b60205220600160ff19825416179055604051612297908162000185823960805181818161040201528181610edf01528181611471015281816117cc0152611b9b0152f35b62461bcd60e51b835260206004840152601560248401527f496e76616c696420746f6b656e206164647265737300000000000000000000006044840152606483fd5b604051631e4fbdf760e01b81525f6004820152602490fd5b5f80fd5b634e487b7160e01b5f52604160045260245ffdfe60806040526004361015610011575f80fd5b5f3560e01c8063025f9dc014611a865780630bd12209146117075780630e599d721461167f57806312e8e2c3146115f55780631da6ed7c1461156f57806326232a2e146115525780633adfe6d014611502578063476343ee1461143d5780635e382837146112dd578063715018a6146112865780637564912b146111a75780637687dd49146111105780638068aa68146110c75780638da5cb5b146110a05780638fb361f6146110405780639003adfe146110235780639887531c14610f0e578063a489080a14610eca578063a5e973c314610e18578063aad8b57b146108da578063b20c7f2d1461085d578063bdb83289146107dd578063c3c95c7b14610571578063cab11d5d14610554578063d794d2d914610517578063e1f1c4a7146104fb578063e49b606c14610233578063e8ceea2f14610209578063f2fde38b146101845763fa968eea14610163575f80fd5b34610180575f366003190112610180576020600854604051908152f35b5f80fd5b346101805760203660031901126101805761019d611ca6565b6101a5612162565b6001600160a01b039081169081156101f1575f54826001600160601b0360a01b8216175f55167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e05f80a3005b604051631e4fbdf760e01b81525f6004820152602490fd5b34610180576020366003190112610180576040610227600435612037565b82519182526020820152f35b34610180576020806003193601126101805760043561025061223e565b805f5260029182815260405f209261026a84541515611f2e565b6006840180549060ff9081831660048110156104e75784036104ac57855f5260059182865260405f20335f52865260405f2094855415610477575f9882600880920196821c16966102d76102be8989611fef565b9890546003998a1b1c99155f1461047057600190611fef565b905490881b1c985f5b82548110156103d0578b5f5288825261030c60405f206103008386611cd2565b9054908c1b1c90611c8d565b50888101805488811615806103bd575b610332575b50505061032d9061200b565b6102e0565b8d9f93928d928d9260ff1916600117905501549e8f9061035191611f1b565b9061035b91612019565b916007546103699084611f1b565b61271090049e8f9361037a91611ffe565b9283039283116103a95761032d9261039191611ffe565b9d61039f600a918254611ffe565b9055908e80610321565b634e487b7160e01b5f52601160045260245ffd5b50888884015416898b54891c161461031c565b8c8c838215610435577fac1dfcff29900d7010c04a6028e48814b8a49daf045127abd10a4636d1d491159061042684337f000000000000000000000000000000000000000000000000000000000000000061218d565b6040519384523393a360018055005b6064906040519062461bcd60e51b8252600482015260146024820152734e6f2077696e6e696e677320746f20636c61696d60601b6044820152fd5b5f90611fef565b60405162461bcd60e51b815260048101889052600d60248201526c139bc818995d1cc8199bdd5b99609a1b6044820152606490fd5b60405162461bcd60e51b815260048101869052601360248201527213585c9ad95d081b9bdd081c995cdbdb1d9959606a1b6044820152606490fd5b634e487b7160e01b5f52602160045260245ffd5b34610180575f3660031901126101805760206040516127108152f35b34610180576020366003190112610180576001600160a01b03610538611ca6565b165f52600b602052602060ff60405f2054166040519015158152f35b34610180575f366003190112610180576020600954604051908152f35b34610180576020366003190112610180575f61018060405161059281611d3b565b828152826020820152606060408201528260608201528260808201528260a08201528260c08201528260e0820152826101008201526040516105d381611d58565b6040368237610120820152826101408201528261016082015201526004355f52600260205260405f206040519061060982611d3b565b8054825261062160ff60018301541660208401611f0f565b61062d60028201611d96565b604083015260038101546001600160a01b031660608301526004808201546080840152600582015460a084015260068201549060ff821610156104e75760ff80821660c0850152600891821c1660e084015260078201546101008401526040519082015f825b600282106107c7575050506106a781611d58565b610120830152600a810154610140830152600b810154610160830152600c01546001600160a01b031661018082015260408051602080825283518183015283015190916106f79190830190611e37565b61071260408301516101c060608401526101e0830190611e44565b60018060a01b036060840151166080830152608083015160a083015260a083015160c083015261074a60c084015160e0840190611e82565b60ff60e0840151166101008301526101008301516101208301526101208301519261014083015f905b600282106107b1575050610140810151610180808501919091526101608201516101a085015201516001600160a01b03166101c08301528190039150f35b6020806001928851815201960191019094610773565b6001602081928554815201930191019091610693565b34610180576020366003190112610180576004356107f9612162565b805f526002602052600660405f2061081381541515611f2e565b01805460ff81169060048210156104e75761083060039215611f72565b60ff19161790557f22ad0fb1e02d1db96e8800dac4e4b23821afaf9e1ca54d2093e7bc7fb8732b5a5f80a2005b3461018057602080600319360112610180576004355f526003815260405f208054610887816120e2565b916108956040519384611d74565b8183525f908152838120938084015b8383106108bd57604051806108b98782611e8f565b0390f35b6006826001926108cc896120fa565b8152019601920191946108a4565b346101805760e036600319011261018057600360243510156101805760443567ffffffffffffffff8111610180573660238201121561018057806004013567ffffffffffffffff8111610c5d576040519161093f601f8301601f191660200184611d74565b818352366024838301011161018057815f92602460209301838601378301015260c4356001600160a01b0381168103610180576004355f52600260205260405f2054610ddb57426064351115610d9657815115610d515760405180604081011067ffffffffffffffff604083011117610c5d57604081016040525f81525f6020820152604051906109cf82611d3b565b60043582526109e360243560208401611f0f565b83604083015233606083015242608083015260643560a08301525f60c08301525f60e08301525f61010083015261012082015260843561014082015260a43561016082015260018060a01b0382166101808201526004355f52600260205260405f208151815560018101602083015160038110156104e75760ff80198354169116179055604082015180519067ffffffffffffffff8211610c5d578190610a8d6002850154611ce7565b601f8111610d01575b50602090601f8311600114610c93575f92610c88575b50508160011b915f199060031b1c19161760028201555b6003810160018060a01b036060840151166001600160601b0360a01b8254161790556080820151600482015560a0820151600582015560c082015160048110156104e75760068201805460e085015161ff0060089190911b1660ff9390931661ffff199091161791909117905561010082015160078201556101208201515f5b60028110610c71575050600c90610140830151600a820155610160830151600b820155019061018060018060a01b03910151166001600160601b0360a01b825416179055600654600160401b811015610c5d576001810180600655811015610c495760065f52600435907ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f0155610bf460405192610be384602435611e37565b60a0602085015260a0840190611e44565b90608435604084015260a435606084015260018060a01b031660808301527fd63bcdfae90a47111c3049e51179b872d8d084679550d9aa11ff5bbad67f084d339280600435930390a360206040516004358152f35b634e487b7160e01b5f52603260045260245ffd5b634e487b7160e01b5f52604160045260245ffd5b600190602083519301926008828601015501610b43565b015190508680610aac565b9250600284015f5260205f20905f935b601f1984168510610ce6576001945083601f19811610610cce575b505050811b016002820155610ac3565b01515f1960f88460031b161c19169055868080610cbe565b81810151835560209485019460019093019290910190610ca3565b909150600284015f5260205f20601f840160051c810160208510610d4a575b90849392915b601f830160051c82018110610d3c575050610a96565b5f8155859450600101610d26565b5080610d20565b60405162461bcd60e51b815260206004820152601860248201527f5175657374696f6e2063616e6e6f7420626520656d70747900000000000000006044820152606490fd5b60405162461bcd60e51b815260206004820152601760248201527f496e76616c6964207265736f6c7574696f6e2074696d650000000000000000006044820152606490fd5b60405162461bcd60e51b81526020600482015260156024820152744d61726b657420616c72656164792065786973747360581b6044820152606490fd5b34610180575f36600319011261018057604051806006548083526020809301809160065f527ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f905f5b86828210610eb6578686610e7782880383611d74565b60405192839281840190828552518091526040840192915f5b828110610e9f57505050500390f35b835185528695509381019392810192600101610e90565b835485529093019260019283019201610e61565b34610180575f366003190112610180576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b3461018057604036600319011261018057600435610f2a611cbc565b815f526020906005825260405f209060018060a01b03165f52815260405f20805491610f55836120e2565b93610f636040519586611d74565b838552601f19610f72856120e2565b01825f5b828110610fe9575050505f5b848110610f9757604051806108b98882611e8f565b610fe490825f52610fc9610fc3600380875260405f2090610fb8858a611cd2565b9054911b1c90611c8d565b506120fa565b610fd3828961214e565b52610fde818861214e565b5061200b565b610f82565b604051610ff581611d1f565b5f81525f838201525f60408201525f60608201525f60808201525f60a082015282828a010152018390610f76565b34610180575f366003190112610180576020600a54604051908152f35b3461018057606036600319011261018057611059611cbc565b604435906004355f52600560205260405f209060018060a01b03165f5260205260405f2080548210156101805760209161109291611cd2565b90546040519160031b1c8152f35b34610180575f366003190112610180575f546040516001600160a01b039091168152602090f35b34610180576040366003190112610180576110e0611ca6565b6001600160a01b03165f908152600460205260409020805460243591908210156101805760209161109291611cd2565b346101805760403660031901126101805760043560243561112f612162565b8082101561117157816040917ff483a8cf66fadba78e10f404e5f1639eb2a336535936e1af01f333d1215378d1936008558060095582519182526020820152a1005b60405162461bcd60e51b815260206004820152600e60248201526d496e76616c6964206c696d69747360901b6044820152606490fd5b34610180576020366003190112610180576004355f526002602052602060405f2080549060ff6001820154166111df60028301611d96565b9160018060a01b03806003830154169360ff60048401546005850154600686015491611242600788015495611230600a8a015498600c600b8c01549b0154169a6040519e8f9e8f9081520190611e37565b61018060408d018190528c0190611e44565b9860608b015260808a015260a089015261126160c08901838316611e82565b60081c1660e08701526101008601526101208501526101408401526101608301520390f35b34610180575f3660031901126101805761129e612162565b5f80546001600160a01b0319811682556001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a3005b34610180576040366003190112610180576004356112f9611c7d565b335f52600b60205260ff60405f205416801561142a575b156113f457815f52600260205260405f209061132e82541515611f2e565b600682019182549260ff841660048110156104e75761134d9015611f72565b60ff83169161135f6001841115611fb2565b600581015442106113bc5761ffff1990941660089390931b61ff0016929092176002179091557fe43e069a17a718f6814ffc6f09f86a39b93ab8b4ec9a2314936fc013770d2db291604091906007015482519182526020820152a2005b60405162461bcd60e51b815260206004820152601060248201526f4d61726b6574206e6f7420726561647960801b6044820152606490fd5b60405162461bcd60e51b815260206004820152600e60248201526d139bdd08185d5d1a1bdc9a5e995960921b6044820152606490fd5b505f546001600160a01b03163314611310565b34610180575f36600319011261018057611455612162565b61145d61223e565b600a5480156114c7575f600a5561149581337f000000000000000000000000000000000000000000000000000000000000000061218d565b6040519081527fc0819c13be868895eb93e40eaceb96de976442fa1d404e5c55f14bb65a8c489a60203392a260018055005b60405162461bcd60e51b81526020600482015260136024820152724e6f206665657320746f20776974686472617760681b6044820152606490fd5b34610180576020366003190112610180576004356006548110156101805760209060065f527ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f0154604051908152f35b34610180575f366003190112610180576020600754604051908152f35b3461018057604036600319011261018057611588611ca6565b6024359081151590818303610180577fd8ea402e95478feee1bea3f652c970c98c456281ae29a9987918e9e8b6754bb4916115ec6020926115c7612162565b60018060a01b031694855f52600b845260405f209060ff801983541691151516179055565b604051908152a2005b3461018057602036600319011261018057600435611611612162565b6103e8811161164b576020817f45610d581145924dd7090a5017e5f2b1d6f42213bb2e95707ff86846bbfcb1ca92600755604051908152a1005b60405162461bcd60e51b815260206004820152600c60248201526b08ccaca40e8dede40d0d2ced60a31b6044820152606490fd5b34610180576040366003190112610180576024356004355f52600360205260405f2080548210156101805760c0916116b691611c8d565b5060018060a01b038154169060018101549060ff60028201541660038201549060ff6005600485015494015416936040519586526020860152604085015260608401526080830152151560a0820152f35b3461018057606036600319011261018057611720611c7d565b61172861223e565b6004355f52600260205260405f2061174281541515611f2e565b60ff60068201541660048110156104e75761175d9015611f72565b61176d600160ff84161115611fb2565b60085460443510611a515760095460443511611a1c576040516323b872dd60e01b602082015233602482015230604482015260443560648201526064815260a081019080821067ffffffffffffffff831117610c5d576117f0916040527f00000000000000000000000000000000000000000000000000000000000000006121d9565b6040516117fc81611d1f565b338152600435602082015260ff8316604082015260443560608201524260808201525f60a08201526004355f52600360205260405f208054600160401b811015610c5d5761184f91600182018155611c8d565b611a0957600560a06118be93600180831b038151166001600160601b03831b855416178455602081015160018501556002840160ff60408301511660ff1982541617905560608101516003850155608081015160048501550151151591019060ff801983541691151516179055565b335f52600460205260405f20805490600160401b821015610c5d57816118ec91600161190794018155611cd2565b6004929192359083549060031b91821b915f19901b19161790565b90556004355f52600560205260405f20335f5260205260405f20906004355f52600360205260405f20545f1981019081116103a9578254600160401b811015610c5d5761195f81600795600161197594018155611cd2565b819391549060031b91821b915f19901b19161790565b90556119b06119878460088401611fef565b819291549061199d604435838360031b1c611ffe565b919060031b91821b915f19901b19161790565b9055016119c06044358254611ffe565b905560ff60405191168152604435602082015242604082015233907fe26b9a058e130a50e470b0deac5ba77fb3ca6df9d10a7dadd563b5c7e30a42be606060043592a360018055005b634e487b7160e01b5f525f60045260245ffd5b60405162461bcd60e51b815260206004820152600d60248201526c42657420746f6f206c6172676560981b6044820152606490fd5b60405162461bcd60e51b815260206004820152600d60248201526c10995d081d1bdbc81cdb585b1b609a1b6044820152606490fd5b34610180576020806003193601126101805760043590611aa461223e565b815f5260028152600660405f20611abd81541515611f2e565b015460ff90811660048110156104e7576003809103611c4157835f5260059081845260405f20335f52845260405f2091825415611c08575f925f5b8154811015611b6857875f52838752611b2460405f20611b188385611cd2565b905490871b1c90611c8d565b50838101805488811615611b44575b505050611b3f9061200b565b611af8565b60ff191660011790558401549094611b3f91611b5f91611ffe565b94908980611b33565b8787868015611bcc579081611bbf7f32623b441d447e60365c6ad4300f90789824dc3b8e4a6a602975b5f710b6cdfd93337f000000000000000000000000000000000000000000000000000000000000000061218d565b604051908152a260018055005b60405162461bcd60e51b81526004810183905260146024820152734e6f20726566756e647320617661696c61626c6560601b6044820152606490fd5b60405162461bcd60e51b8152600481018690526011602482015270139bc818995d1cc81d1bc81c99599d5b99607a1b6044820152606490fd5b60405162461bcd60e51b815260048101849052601460248201527313585c9ad95d081b9bdd0818d85b98d95b1b195960621b6044820152606490fd5b6024359060ff8216820361018057565b8054821015610c49575f52600660205f20910201905f90565b600435906001600160a01b038216820361018057565b602435906001600160a01b038216820361018057565b8054821015610c49575f5260205f2001905f90565b90600182811c92168015611d15575b6020831014611d0157565b634e487b7160e01b5f52602260045260245ffd5b91607f1691611cf6565b60c0810190811067ffffffffffffffff821117610c5d57604052565b6101a0810190811067ffffffffffffffff821117610c5d57604052565b6040810190811067ffffffffffffffff821117610c5d57604052565b90601f8019910116810190811067ffffffffffffffff821117610c5d57604052565b9060405191825f825492611da984611ce7565b9081845260019485811690815f14611e145750600114611dd4575b5050611dd292500383611d74565b565b909391505f52602090815f20935f915b818310611dfc575050611dd293508201015f80611dc4565b85548884018501529485019487945091830191611de4565b915050611dd294506020925060ff191682840152151560051b8201015f80611dc4565b9060038210156104e75752565b91908251928382525f5b848110611e6e575050825f602080949584010152601f8019910116010190565b602081830181015184830182015201611e4e565b9060048210156104e75752565b60208082019080835283518092528060408094019401925f905b838210611eb857505050505090565b845180516001600160a01b0316875280840151878501528082015160ff1687830152606080820151908801526080808201519088015260a09081015115159087015260c09095019493820193600190910190611ea9565b60038210156104e75752565b818102929181159184041417156103a957565b15611f3557565b60405162461bcd60e51b815260206004820152601560248201527413585c9ad95d08191bd95cc81b9bdd08195e1a5cdd605a1b6044820152606490fd5b15611f7957565b60405162461bcd60e51b81526020600482015260116024820152704d61726b6574206e6f742061637469766560781b6044820152606490fd5b15611fb957565b60405162461bcd60e51b815260206004820152600e60248201526d24b73b30b634b21037b83a34b7b760911b6044820152606490fd5b6002821015610c495701905f90565b919082018092116103a957565b5f1981146103a95760010190565b8115612023570490565b634e487b7160e01b5f52601260045260245ffd5b905f91825260026020526040822091600783015480156120d657600884015480156120cd57612710820261270f19838204016120b95760099161207991612019565b9401549182156120b3576127108083029283040361209f57509061209c91612019565b90565b634e487b7160e01b81526011600452602490fd5b91505090565b634e487b7160e01b84526011600452602484fd5b50600982612079565b50509050614e20908190565b67ffffffffffffffff8111610c5d5760051b60200190565b9060405161210781611d1f565b60a060ff60058395600180851b0381541685526001810154602086015282600282015416604086015260038101546060860152600481015460808601520154161515910152565b8051821015610c495760209160051b010190565b5f546001600160a01b0316330361217557565b60405163118cdaa760e01b8152336004820152602490fd5b60405163a9059cbb60e01b60208201526001600160a01b039092166024830152604480830193909352918152608081019167ffffffffffffffff831182841017610c5d57611dd2926040525b905f602091828151910182855af115612233575f513d61222a57506001600160a01b0381163b155b6122085750565b604051635274afe760e01b81526001600160a01b039091166004820152602490fd5b60011415612201565b6040513d5f823e3d90fd5b60026001541461224f576002600155565b604051633ee5aeb560e01b8152600490fdfea2646970667358221220d833b06ef3c01f2960ccfbddd011708fe73d19cf56e5ceb03bb27804be41521364736f6c63430008140033",
+        "sourceMap": "444:12891:1:-:0;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;3553:10;1273:26:3;1269:95;;-1:-1:-1;444:12891:1;;3553:10;-1:-1:-1;;;;;;444:12891:1;;;;;;;;;-1:-1:-1;;;3553:10:1;;444:12891;3052:40:3;-1:-1:-1;;3052:40:3;444:12891:1;;;1834:3;;444:12891;1947:10;;444:12891;2020:9;;444:12891;3583:24;;444:12891;;;3643:30;;;;3553:10;444:12891;;3731:19;444:12891;;;;;;;;;;;;;;;;;;;;3643:30;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;;;1269:95:3;444:12891:1;;-1:-1:-1;;;1322:31:3;;-1:-1:-1;1322:31:3;;;444:12891:1;;;1322:31:3;444:12891:1;-1:-1:-1;444:12891:1;;;;;;-1:-1:-1;444:12891:1;;;;;-1:-1:-1;444:12891:1",
+        "linkReferences": {}
+    },
+    "deployedBytecode": {
+        "object": "0x60806040526004361015610011575f80fd5b5f3560e01c8063025f9dc014611a865780630bd12209146117075780630e599d721461167f57806312e8e2c3146115f55780631da6ed7c1461156f57806326232a2e146115525780633adfe6d014611502578063476343ee1461143d5780635e382837146112dd578063715018a6146112865780637564912b146111a75780637687dd49146111105780638068aa68146110c75780638da5cb5b146110a05780638fb361f6146110405780639003adfe146110235780639887531c14610f0e578063a489080a14610eca578063a5e973c314610e18578063aad8b57b146108da578063b20c7f2d1461085d578063bdb83289146107dd578063c3c95c7b14610571578063cab11d5d14610554578063d794d2d914610517578063e1f1c4a7146104fb578063e49b606c14610233578063e8ceea2f14610209578063f2fde38b146101845763fa968eea14610163575f80fd5b34610180575f366003190112610180576020600854604051908152f35b5f80fd5b346101805760203660031901126101805761019d611ca6565b6101a5612162565b6001600160a01b039081169081156101f1575f54826001600160601b0360a01b8216175f55167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e05f80a3005b604051631e4fbdf760e01b81525f6004820152602490fd5b34610180576020366003190112610180576040610227600435612037565b82519182526020820152f35b34610180576020806003193601126101805760043561025061223e565b805f5260029182815260405f209261026a84541515611f2e565b6006840180549060ff9081831660048110156104e75784036104ac57855f5260059182865260405f20335f52865260405f2094855415610477575f9882600880920196821c16966102d76102be8989611fef565b9890546003998a1b1c99155f1461047057600190611fef565b905490881b1c985f5b82548110156103d0578b5f5288825261030c60405f206103008386611cd2565b9054908c1b1c90611c8d565b50888101805488811615806103bd575b610332575b50505061032d9061200b565b6102e0565b8d9f93928d928d9260ff1916600117905501549e8f9061035191611f1b565b9061035b91612019565b916007546103699084611f1b565b61271090049e8f9361037a91611ffe565b9283039283116103a95761032d9261039191611ffe565b9d61039f600a918254611ffe565b9055908e80610321565b634e487b7160e01b5f52601160045260245ffd5b50888884015416898b54891c161461031c565b8c8c838215610435577fac1dfcff29900d7010c04a6028e48814b8a49daf045127abd10a4636d1d491159061042684337f000000000000000000000000000000000000000000000000000000000000000061218d565b6040519384523393a360018055005b6064906040519062461bcd60e51b8252600482015260146024820152734e6f2077696e6e696e677320746f20636c61696d60601b6044820152fd5b5f90611fef565b60405162461bcd60e51b815260048101889052600d60248201526c139bc818995d1cc8199bdd5b99609a1b6044820152606490fd5b60405162461bcd60e51b815260048101869052601360248201527213585c9ad95d081b9bdd081c995cdbdb1d9959606a1b6044820152606490fd5b634e487b7160e01b5f52602160045260245ffd5b34610180575f3660031901126101805760206040516127108152f35b34610180576020366003190112610180576001600160a01b03610538611ca6565b165f52600b602052602060ff60405f2054166040519015158152f35b34610180575f366003190112610180576020600954604051908152f35b34610180576020366003190112610180575f61018060405161059281611d3b565b828152826020820152606060408201528260608201528260808201528260a08201528260c08201528260e0820152826101008201526040516105d381611d58565b6040368237610120820152826101408201528261016082015201526004355f52600260205260405f206040519061060982611d3b565b8054825261062160ff60018301541660208401611f0f565b61062d60028201611d96565b604083015260038101546001600160a01b031660608301526004808201546080840152600582015460a084015260068201549060ff821610156104e75760ff80821660c0850152600891821c1660e084015260078201546101008401526040519082015f825b600282106107c7575050506106a781611d58565b610120830152600a810154610140830152600b810154610160830152600c01546001600160a01b031661018082015260408051602080825283518183015283015190916106f79190830190611e37565b61071260408301516101c060608401526101e0830190611e44565b60018060a01b036060840151166080830152608083015160a083015260a083015160c083015261074a60c084015160e0840190611e82565b60ff60e0840151166101008301526101008301516101208301526101208301519261014083015f905b600282106107b1575050610140810151610180808501919091526101608201516101a085015201516001600160a01b03166101c08301528190039150f35b6020806001928851815201960191019094610773565b6001602081928554815201930191019091610693565b34610180576020366003190112610180576004356107f9612162565b805f526002602052600660405f2061081381541515611f2e565b01805460ff81169060048210156104e75761083060039215611f72565b60ff19161790557f22ad0fb1e02d1db96e8800dac4e4b23821afaf9e1ca54d2093e7bc7fb8732b5a5f80a2005b3461018057602080600319360112610180576004355f526003815260405f208054610887816120e2565b916108956040519384611d74565b8183525f908152838120938084015b8383106108bd57604051806108b98782611e8f565b0390f35b6006826001926108cc896120fa565b8152019601920191946108a4565b346101805760e036600319011261018057600360243510156101805760443567ffffffffffffffff8111610180573660238201121561018057806004013567ffffffffffffffff8111610c5d576040519161093f601f8301601f191660200184611d74565b818352366024838301011161018057815f92602460209301838601378301015260c4356001600160a01b0381168103610180576004355f52600260205260405f2054610ddb57426064351115610d9657815115610d515760405180604081011067ffffffffffffffff604083011117610c5d57604081016040525f81525f6020820152604051906109cf82611d3b565b60043582526109e360243560208401611f0f565b83604083015233606083015242608083015260643560a08301525f60c08301525f60e08301525f61010083015261012082015260843561014082015260a43561016082015260018060a01b0382166101808201526004355f52600260205260405f208151815560018101602083015160038110156104e75760ff80198354169116179055604082015180519067ffffffffffffffff8211610c5d578190610a8d6002850154611ce7565b601f8111610d01575b50602090601f8311600114610c93575f92610c88575b50508160011b915f199060031b1c19161760028201555b6003810160018060a01b036060840151166001600160601b0360a01b8254161790556080820151600482015560a0820151600582015560c082015160048110156104e75760068201805460e085015161ff0060089190911b1660ff9390931661ffff199091161791909117905561010082015160078201556101208201515f5b60028110610c71575050600c90610140830151600a820155610160830151600b820155019061018060018060a01b03910151166001600160601b0360a01b825416179055600654600160401b811015610c5d576001810180600655811015610c495760065f52600435907ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f0155610bf460405192610be384602435611e37565b60a0602085015260a0840190611e44565b90608435604084015260a435606084015260018060a01b031660808301527fd63bcdfae90a47111c3049e51179b872d8d084679550d9aa11ff5bbad67f084d339280600435930390a360206040516004358152f35b634e487b7160e01b5f52603260045260245ffd5b634e487b7160e01b5f52604160045260245ffd5b600190602083519301926008828601015501610b43565b015190508680610aac565b9250600284015f5260205f20905f935b601f1984168510610ce6576001945083601f19811610610cce575b505050811b016002820155610ac3565b01515f1960f88460031b161c19169055868080610cbe565b81810151835560209485019460019093019290910190610ca3565b909150600284015f5260205f20601f840160051c810160208510610d4a575b90849392915b601f830160051c82018110610d3c575050610a96565b5f8155859450600101610d26565b5080610d20565b60405162461bcd60e51b815260206004820152601860248201527f5175657374696f6e2063616e6e6f7420626520656d70747900000000000000006044820152606490fd5b60405162461bcd60e51b815260206004820152601760248201527f496e76616c6964207265736f6c7574696f6e2074696d650000000000000000006044820152606490fd5b60405162461bcd60e51b81526020600482015260156024820152744d61726b657420616c72656164792065786973747360581b6044820152606490fd5b34610180575f36600319011261018057604051806006548083526020809301809160065f527ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f905f5b86828210610eb6578686610e7782880383611d74565b60405192839281840190828552518091526040840192915f5b828110610e9f57505050500390f35b835185528695509381019392810192600101610e90565b835485529093019260019283019201610e61565b34610180575f366003190112610180576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b3461018057604036600319011261018057600435610f2a611cbc565b815f526020906005825260405f209060018060a01b03165f52815260405f20805491610f55836120e2565b93610f636040519586611d74565b838552601f19610f72856120e2565b01825f5b828110610fe9575050505f5b848110610f9757604051806108b98882611e8f565b610fe490825f52610fc9610fc3600380875260405f2090610fb8858a611cd2565b9054911b1c90611c8d565b506120fa565b610fd3828961214e565b52610fde818861214e565b5061200b565b610f82565b604051610ff581611d1f565b5f81525f838201525f60408201525f60608201525f60808201525f60a082015282828a010152018390610f76565b34610180575f366003190112610180576020600a54604051908152f35b3461018057606036600319011261018057611059611cbc565b604435906004355f52600560205260405f209060018060a01b03165f5260205260405f2080548210156101805760209161109291611cd2565b90546040519160031b1c8152f35b34610180575f366003190112610180575f546040516001600160a01b039091168152602090f35b34610180576040366003190112610180576110e0611ca6565b6001600160a01b03165f908152600460205260409020805460243591908210156101805760209161109291611cd2565b346101805760403660031901126101805760043560243561112f612162565b8082101561117157816040917ff483a8cf66fadba78e10f404e5f1639eb2a336535936e1af01f333d1215378d1936008558060095582519182526020820152a1005b60405162461bcd60e51b815260206004820152600e60248201526d496e76616c6964206c696d69747360901b6044820152606490fd5b34610180576020366003190112610180576004355f526002602052602060405f2080549060ff6001820154166111df60028301611d96565b9160018060a01b03806003830154169360ff60048401546005850154600686015491611242600788015495611230600a8a015498600c600b8c01549b0154169a6040519e8f9e8f9081520190611e37565b61018060408d018190528c0190611e44565b9860608b015260808a015260a089015261126160c08901838316611e82565b60081c1660e08701526101008601526101208501526101408401526101608301520390f35b34610180575f3660031901126101805761129e612162565b5f80546001600160a01b0319811682556001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a3005b34610180576040366003190112610180576004356112f9611c7d565b335f52600b60205260ff60405f205416801561142a575b156113f457815f52600260205260405f209061132e82541515611f2e565b600682019182549260ff841660048110156104e75761134d9015611f72565b60ff83169161135f6001841115611fb2565b600581015442106113bc5761ffff1990941660089390931b61ff0016929092176002179091557fe43e069a17a718f6814ffc6f09f86a39b93ab8b4ec9a2314936fc013770d2db291604091906007015482519182526020820152a2005b60405162461bcd60e51b815260206004820152601060248201526f4d61726b6574206e6f7420726561647960801b6044820152606490fd5b60405162461bcd60e51b815260206004820152600e60248201526d139bdd08185d5d1a1bdc9a5e995960921b6044820152606490fd5b505f546001600160a01b03163314611310565b34610180575f36600319011261018057611455612162565b61145d61223e565b600a5480156114c7575f600a5561149581337f000000000000000000000000000000000000000000000000000000000000000061218d565b6040519081527fc0819c13be868895eb93e40eaceb96de976442fa1d404e5c55f14bb65a8c489a60203392a260018055005b60405162461bcd60e51b81526020600482015260136024820152724e6f206665657320746f20776974686472617760681b6044820152606490fd5b34610180576020366003190112610180576004356006548110156101805760209060065f527ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f0154604051908152f35b34610180575f366003190112610180576020600754604051908152f35b3461018057604036600319011261018057611588611ca6565b6024359081151590818303610180577fd8ea402e95478feee1bea3f652c970c98c456281ae29a9987918e9e8b6754bb4916115ec6020926115c7612162565b60018060a01b031694855f52600b845260405f209060ff801983541691151516179055565b604051908152a2005b3461018057602036600319011261018057600435611611612162565b6103e8811161164b576020817f45610d581145924dd7090a5017e5f2b1d6f42213bb2e95707ff86846bbfcb1ca92600755604051908152a1005b60405162461bcd60e51b815260206004820152600c60248201526b08ccaca40e8dede40d0d2ced60a31b6044820152606490fd5b34610180576040366003190112610180576024356004355f52600360205260405f2080548210156101805760c0916116b691611c8d565b5060018060a01b038154169060018101549060ff60028201541660038201549060ff6005600485015494015416936040519586526020860152604085015260608401526080830152151560a0820152f35b3461018057606036600319011261018057611720611c7d565b61172861223e565b6004355f52600260205260405f2061174281541515611f2e565b60ff60068201541660048110156104e75761175d9015611f72565b61176d600160ff84161115611fb2565b60085460443510611a515760095460443511611a1c576040516323b872dd60e01b602082015233602482015230604482015260443560648201526064815260a081019080821067ffffffffffffffff831117610c5d576117f0916040527f00000000000000000000000000000000000000000000000000000000000000006121d9565b6040516117fc81611d1f565b338152600435602082015260ff8316604082015260443560608201524260808201525f60a08201526004355f52600360205260405f208054600160401b811015610c5d5761184f91600182018155611c8d565b611a0957600560a06118be93600180831b038151166001600160601b03831b855416178455602081015160018501556002840160ff60408301511660ff1982541617905560608101516003850155608081015160048501550151151591019060ff801983541691151516179055565b335f52600460205260405f20805490600160401b821015610c5d57816118ec91600161190794018155611cd2565b6004929192359083549060031b91821b915f19901b19161790565b90556004355f52600560205260405f20335f5260205260405f20906004355f52600360205260405f20545f1981019081116103a9578254600160401b811015610c5d5761195f81600795600161197594018155611cd2565b819391549060031b91821b915f19901b19161790565b90556119b06119878460088401611fef565b819291549061199d604435838360031b1c611ffe565b919060031b91821b915f19901b19161790565b9055016119c06044358254611ffe565b905560ff60405191168152604435602082015242604082015233907fe26b9a058e130a50e470b0deac5ba77fb3ca6df9d10a7dadd563b5c7e30a42be606060043592a360018055005b634e487b7160e01b5f525f60045260245ffd5b60405162461bcd60e51b815260206004820152600d60248201526c42657420746f6f206c6172676560981b6044820152606490fd5b60405162461bcd60e51b815260206004820152600d60248201526c10995d081d1bdbc81cdb585b1b609a1b6044820152606490fd5b34610180576020806003193601126101805760043590611aa461223e565b815f5260028152600660405f20611abd81541515611f2e565b015460ff90811660048110156104e7576003809103611c4157835f5260059081845260405f20335f52845260405f2091825415611c08575f925f5b8154811015611b6857875f52838752611b2460405f20611b188385611cd2565b905490871b1c90611c8d565b50838101805488811615611b44575b505050611b3f9061200b565b611af8565b60ff191660011790558401549094611b3f91611b5f91611ffe565b94908980611b33565b8787868015611bcc579081611bbf7f32623b441d447e60365c6ad4300f90789824dc3b8e4a6a602975b5f710b6cdfd93337f000000000000000000000000000000000000000000000000000000000000000061218d565b604051908152a260018055005b60405162461bcd60e51b81526004810183905260146024820152734e6f20726566756e647320617661696c61626c6560601b6044820152606490fd5b60405162461bcd60e51b8152600481018690526011602482015270139bc818995d1cc81d1bc81c99599d5b99607a1b6044820152606490fd5b60405162461bcd60e51b815260048101849052601460248201527313585c9ad95d081b9bdd0818d85b98d95b1b195960621b6044820152606490fd5b6024359060ff8216820361018057565b8054821015610c49575f52600660205f20910201905f90565b600435906001600160a01b038216820361018057565b602435906001600160a01b038216820361018057565b8054821015610c49575f5260205f2001905f90565b90600182811c92168015611d15575b6020831014611d0157565b634e487b7160e01b5f52602260045260245ffd5b91607f1691611cf6565b60c0810190811067ffffffffffffffff821117610c5d57604052565b6101a0810190811067ffffffffffffffff821117610c5d57604052565b6040810190811067ffffffffffffffff821117610c5d57604052565b90601f8019910116810190811067ffffffffffffffff821117610c5d57604052565b9060405191825f825492611da984611ce7565b9081845260019485811690815f14611e145750600114611dd4575b5050611dd292500383611d74565b565b909391505f52602090815f20935f915b818310611dfc575050611dd293508201015f80611dc4565b85548884018501529485019487945091830191611de4565b915050611dd294506020925060ff191682840152151560051b8201015f80611dc4565b9060038210156104e75752565b91908251928382525f5b848110611e6e575050825f602080949584010152601f8019910116010190565b602081830181015184830182015201611e4e565b9060048210156104e75752565b60208082019080835283518092528060408094019401925f905b838210611eb857505050505090565b845180516001600160a01b0316875280840151878501528082015160ff1687830152606080820151908801526080808201519088015260a09081015115159087015260c09095019493820193600190910190611ea9565b60038210156104e75752565b818102929181159184041417156103a957565b15611f3557565b60405162461bcd60e51b815260206004820152601560248201527413585c9ad95d08191bd95cc81b9bdd08195e1a5cdd605a1b6044820152606490fd5b15611f7957565b60405162461bcd60e51b81526020600482015260116024820152704d61726b6574206e6f742061637469766560781b6044820152606490fd5b15611fb957565b60405162461bcd60e51b815260206004820152600e60248201526d24b73b30b634b21037b83a34b7b760911b6044820152606490fd5b6002821015610c495701905f90565b919082018092116103a957565b5f1981146103a95760010190565b8115612023570490565b634e487b7160e01b5f52601260045260245ffd5b905f91825260026020526040822091600783015480156120d657600884015480156120cd57612710820261270f19838204016120b95760099161207991612019565b9401549182156120b3576127108083029283040361209f57509061209c91612019565b90565b634e487b7160e01b81526011600452602490fd5b91505090565b634e487b7160e01b84526011600452602484fd5b50600982612079565b50509050614e20908190565b67ffffffffffffffff8111610c5d5760051b60200190565b9060405161210781611d1f565b60a060ff60058395600180851b0381541685526001810154602086015282600282015416604086015260038101546060860152600481015460808601520154161515910152565b8051821015610c495760209160051b010190565b5f546001600160a01b0316330361217557565b60405163118cdaa760e01b8152336004820152602490fd5b60405163a9059cbb60e01b60208201526001600160a01b039092166024830152604480830193909352918152608081019167ffffffffffffffff831182841017610c5d57611dd2926040525b905f602091828151910182855af115612233575f513d61222a57506001600160a01b0381163b155b6122085750565b604051635274afe760e01b81526001600160a01b039091166004820152602490fd5b60011415612201565b6040513d5f823e3d90fd5b60026001541461224f576002600155565b604051633ee5aeb560e01b8152600490fdfea2646970667358221220d833b06ef3c01f2960ccfbddd011708fe73d19cf56e5ceb03bb27804be41521364736f6c63430008140033",
+        "sourceMap": "444:12891:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;1917:40;444:12891;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;:::i;:::-;1500:62:3;;:::i;:::-;-1:-1:-1;;;;;444:12891:1;;;;2627:22:3;;2623:91;;444:12891:1;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;3052:40:3;444:12891:1;3052:40:3;;444:12891:1;2623:91:3;444:12891:1;;-1:-1:-1;;;2672:31:3;;444:12891:1;;2672:31:3;;444:12891:1;;;2672:31:3;444:12891:1;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;2466:103:13;;:::i;:::-;444:12891:1;;;7620:7;444:12891;;;;;;;;7649:63;444:12891;;7657:29;;7649:63;:::i;:::-;7730:13;;;444:12891;;;;;;;;;;;;;;7730:38;;444:12891;;;;;7834:14;444:12891;;;;;;;7860:10;444:12891;;;;;;;;;;7889:21;444:12891;;;7996:18;;;;;;444:12891;;;;7996:40;8067:53;7996:40;;;;:::i;:::-;444:12891;;;;;;;;8086:33;:25;:33;444:12891;;;;8086:33;8067:53;:::i;:::-;444:12891;;;;;;8136:13;444:12891;8174:3;444:12891;;8151:21;;;;;444:12891;;;;;;8211:36;444:12891;;;8233:13;;;;:::i;:::-;444:12891;;;;;;8211:36;;:::i;:::-;8267:11;;;;444:12891;;;;;8266:12;:50;;;8174:3;8262:597;;8174:3;;;;;;;:::i;:::-;8136:13;;8262:597;444:12891;;;;;;;;;;;;;;;8440:10;444:12891;8440:23;;;;;;:::i;:::-;8439:39;;;;:::i;:::-;444:12891;8614:11;444:12891;8605:20;;;;:::i;:::-;1906:5;444:12891;;8739:19;;;;;;:::i;:::-;444:12891;;;;;;;;8174:3;8783:23;;;;:::i;:::-;8824:20;;;444:12891;;;8824:20;:::i;:::-;444:12891;;8262:597;;;;;444:12891;;;;;;;;;;;;8266:50;8282:10;;;;;444:12891;;;;;;;;8282:34;8266:50;;8151:21;;;;8887:17;;444:12891;;9047:53;7860:10;9017:13;7860:10;;8982:9;9017:13;:::i;:::-;444:12891;;;;;7860:10;9047:53;;444:12891;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;8086:33;444:12891;8086:33;8067:53;:::i;444:12891::-;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;1906:5;444:12891;;;;;;;;;-1:-1:-1;;444:12891:1;;;;-1:-1:-1;;;;;444:12891:1;;:::i;:::-;;;;2150:51;444:12891;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;1990:39;444:12891;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;:::i;:::-;;;;;;:::i;:::-;;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;444:12891:1;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;-1:-1:-1;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;1500:62:3;;:::i;:::-;444:12891:1;;;9270:7;444:12891;;9380:13;444:12891;;;9299:63;444:12891;;9307:29;;9299:63;:::i;:::-;9380:13;444:12891;;;;;;;;;;;;9372:66;444:12891;9380:36;;9372:66;:::i;:::-;-1:-1:-1;;444:12891:1;;;;9503:26;444:12891;;9503:26;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;4373:7;444:12891;;;;;;;;4476:15;444:12891;;4458:33;444:12891;;;;;4537:27;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;4982:24;;444:12891;;;;;;;:::i;:::-;;;;;4630:508;444:12891;;;4630:508;;;:::i;:::-;;444:12891;4630:508;;444:12891;4763:10;444:12891;4630:508;;444:12891;4476:15;444:12891;4630:508;;444:12891;;;;4630:508;;444:12891;;;4630:508;;444:12891;;;4630:508;;444:12891;;4630:508;;;444:12891;4630:508;;;444:12891;;;4630:508;;;444:12891;;;4630:508;;;444:12891;;;;;;;;4630:508;;;444:12891;;;;;4373:7;444:12891;;;;;;;;;;;;;4630:508;;444:12891;;;;;;;;;;;;;;;;;;;4630:508;;444:12891;;;;;;;;;;;;4373:7;444:12891;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4373:7;444:12891;;;;;;;;;;;;;4630:508;;444:12891;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;4630:508;;444:12891;;;;;;4630:508;;444:12891;;;;;;4630:508;;444:12891;;;;;;;;;;;;;4630:508;;444:12891;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;;4630:508;;;444:12891;;;;;4630:508;;;444:12891;;;4373:7;444:12891;;;;4630:508;;444:12891;4630:508;;;;444:12891;;;;;4630:508;;;444:12891;;;;;;;4630:508;444:12891;;;;;4630:508;;444:12891;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;5234:198;4763:10;444:12891;;;;5234:198;;;;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;444:12891:1;;;;;;;4373:7;444:12891;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;4373:7;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4373:7;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;444:12891:1;;;;;-1:-1:-1;444:12891:1;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;11849:13;444:12891;;;;;;;;;;11849:13;444:12891;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;1503:33;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;:::i;:::-;;;;;;13064:14;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;:::i;:::-;;;;-1:-1:-1;;444:12891:1;;;:::i;:::-;;;;;;;;;;13177:13;;;444:12891;13192:18;;;;;;444:12891;;;;;;;:::i;13212:3::-;;444:12891;;;;;13251:33;444:12891;;;;;;;13273:10;;;;;:::i;:::-;444:12891;;;;;13251:33;;:::i;:::-;444:12891;;:::i;:::-;13231:53;;;;:::i;:::-;;;;;;:::i;:::-;;13212:3;:::i;:::-;13177:13;;444:12891;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;2047:28;444:12891;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;:::i;:::-;;;;;;;;1690:71;444:12891;;;;;;;;;;;;;;;;;;;;;1690:71;;;;;444:12891;1690:71;;;;:::i;:::-;444:12891;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;:::i;:::-;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;;;;;;1639:45;;;;;444:12891;1639:45;;;;:::i;444:12891::-;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;1500:62:3;;:::i;:::-;11302:11:1;;;444:12891;;;;;;11405:28;444:12891;11342:19;444:12891;;11371:19;444:12891;;;;;;;;;;11405:28;444:12891;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;1543:41;444:12891;;;;;;;;1543:41;444:12891;;1543:41;;444:12891;;1543:41;;;;;:::i;:::-;444:12891;;;;;;1543:41;444:12891;1543:41;;444:12891;;1543:41;444:12891;;1543:41;;444:12891;1543:41;;;444:12891;1543:41;;;444:12891;1543:41;444:12891;1543:41;;;444:12891;1543:41;444:12891;1543:41;;;444:12891;1543:41;;;;;444:12891;1543:41;;444:12891;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;1500:62:3;;:::i;:::-;444:12891:1;;;-1:-1:-1;;;;;;444:12891:1;;;;-1:-1:-1;;;;;444:12891:1;3052:40:3;444:12891:1;;3052:40:3;444:12891:1;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;:::i;:::-;3337:10;444:12891;;3317:19;444:12891;;;;;;;;3317:56;;;;444:12891;;;;;;;6970:7;444:12891;;;;;;6999:63;444:12891;;7007:29;;6999:63;:::i;:::-;7080:13;;;444:12891;;;;;;;;;;;;;7072:66;7080:36;;7072:66;:::i;:::-;444:12891;;;7156:19;7148:46;444:12891;7156:19;;;7148:46;:::i;:::-;7231:21;;;444:12891;7212:15;:40;444:12891;;-1:-1:-1;;444:12891:1;;;;;;;;;;;;;;6970:7;444:12891;;;;7384:59;;444:12891;;-1:-1:-1;7426:16:1;;444:12891;;;;;;;;;;7384:59;444:12891;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;3317:56;-1:-1:-1;444:12891:1;;-1:-1:-1;;;;;444:12891:1;3337:10;3352:21;3317:56;;444:12891;;;;;;-1:-1:-1;;444:12891:1;;;;1500:62:3;;:::i;:::-;2466:103:13;;:::i;:::-;10699:13:1;444:12891;10730:10;;444:12891;;;10699:13;444:12891;10837:6;10825:10;;10802:9;10837:6;:::i;:::-;444:12891;;;;;10860:33;444:12891;10825:10;10860:33;;1857:1:13;444:12891:1;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;1768:30;444:12891;1768:30;;;;;444:12891;;1768:30;444:12891;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;1805:32;444:12891;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;:::i;:::-;;;;;;;;;;;;;11660:39;1500:62:3;11601:44:1;444:12891;1500:62:3;;;:::i;:::-;444:12891:1;;;;;;;;;;11601:19;444:12891;;;;;;;;;;;;;;;;;;;;11601:44;444:12891;;;;;11660:39;444:12891;;;;;;;-1:-1:-1;;444:12891:1;;;;;;1500:62:3;;:::i;:::-;11047:4:1;11039:12;;444:12891;;;;11122:24;444:12891;11089:18;444:12891;;;;;;11122:24;444:12891;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;;;;;;;;;;;;;1590:43;;;;;444:12891;1590:43;;;;:::i;:::-;444:12891;;;;;;;;;1590:43;444:12891;1590:43;;444:12891;1590:43;444:12891;1590:43;;;444:12891;;;1590:43;;444:12891;1590:43;444:12891;1590:43;444:12891;1590:43;;444:12891;1590:43;;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;444:12891:1;;;;;;:::i;:::-;2466:103:13;;:::i;:::-;444:12891:1;;;;5697:7;444:12891;;;;;5726:63;444:12891;;5734:29;;5726:63;:::i;:::-;444:12891;5807:13;;;444:12891;;;;;;;;5799:66;5807:36;;5799:66;:::i;:::-;5875:39;444:12891;;;;5883:12;;5875:39;:::i;:::-;5943:12;444:12891;;;5932:23;444:12891;;6002:12;444:12891;;;5991:23;444:12891;;;;;;;;1745:53:11;;;6124:10:1;444:12891;1745:53:11;;444:12891:1;6144:4;444:12891;;;;;;;;;;;1745:53:11;;444:12891:1;;;;;;;;;;;;;1745:53:11;444:12891:1;;;6097:9;1745:53:11;:::i;:::-;444:12891:1;;;;;:::i;:::-;6124:10;444:12891;;;;;6190:206;;444:12891;;;;;6190:206;;444:12891;;;;6190:206;;444:12891;6342:15;6190:206;;;444:12891;;;6190:206;;444:12891;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;6190:206;;444:12891;;;;;5697:7;444:12891;;;;6190:206;;444:12891;;;;;;;;;;;6190:206;;444:12891;;;;;6190:206;;;444:12891;;;;;6190:206;444:12891;;;;;;;;;;;;;;;;;;;;;6124:10;444:12891;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6124:10;444:12891;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;6632:16;444:12891;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;6584:27;:18;5943:12;6584:18;;:27;:::i;:::-;444:12891;;;;;6584:38;444:12891;;;;;;;6584:38;:::i;:::-;444:12891;;;;;;;;;;;;;;;;;;;;6632:16;:27;444:12891;;;;6632:27;:::i;:::-;444:12891;;;;;;;;;;;;;;;6342:15;444:12891;;;;6124:10;444:12891;6675:67;444:12891;;;6675:67;;444:12891;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;2466:103:13;;;:::i;:::-;444:12891:1;;;9704:7;444:12891;;9814:13;444:12891;;;9733:63;444:12891;;9741:29;;9733:63;:::i;:::-;9814:13;444:12891;;;;;;;;;;;;9814:39;;;444:12891;;;;;9920:14;444:12891;;;;;;;9946:10;444:12891;;;;;;;;;;9975:21;444:12891;;;10068:13;444:12891;10106:3;444:12891;;10083:21;;;;;444:12891;;;;;;10143:36;444:12891;;;10165:13;;;;:::i;:::-;444:12891;;;;;;10143:36;;:::i;:::-;10199:11;;;;444:12891;;;;;10198:12;10194:112;;10106:3;;;;;;;:::i;:::-;10068:13;;10194:112;-1:-1:-1;;444:12891:1;;;;;10281:10;;444:12891;;;10106:3;;10266:25;;;:::i;:::-;10194:112;;;;;;10083:21;;;;10334:15;;444:12891;;9946:10;;10465:11;10493:36;9946:10;;10430:9;10465:11;:::i;:::-;444:12891;;;;;10493:36;444:12891;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;-1:-1:-1;444:12891:1;;;-1:-1:-1;444:12891:1;;;;;-1:-1:-1;444:12891:1;:::o;:::-;;;;-1:-1:-1;;;;;444:12891:1;;;;;;:::o;:::-;;;;-1:-1:-1;;;;;444:12891:1;;;;;;:::o;:::-;;;;;;;;-1:-1:-1;444:12891:1;;-1:-1:-1;444:12891:1;;;-1:-1:-1;444:12891:1;:::o;:::-;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;-1:-1:-1;444:12891:1;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;:::o;:::-;;;;;-1:-1:-1;444:12891:1;;;;-1:-1:-1;444:12891:1;;-1:-1:-1;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;-1:-1:-1;;;;;444:12891:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;:::o;:::-;;;;:::o;:::-;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;:::o;:::-;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;:::o;:::-;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;-1:-1:-1;;;444:12891:1;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;:::o;:::-;-1:-1:-1;;444:12891:1;;;;;;;:::o;:::-;;;;;;;:::o;:::-;;;;;;;;;;;;11939:540;;-1:-1:-1;444:12891:1;;;12065:7;444:12891;;;;;12098:16;;;;444:12891;12098:21;;12094:112;;12226:18;;;444:12891;12226:25;;;;1906:5;444:12891;;-1:-1:-1;;444:12891:1;;;;;;;12266:57;;;;:::i;:::-;444:12891;;;;12359:25;;;;1906:5;444:12891;;;;;;;;;12399:57;;;;;:::i;:::-;11939:540;:::o;444:12891::-;-1:-1:-1;;;444:12891:1;;;;;;;;12359:113;;;;11939:540;:::o;444:12891::-;-1:-1:-1;;;444:12891:1;;;;;;;;12226:113;;444:12891;12226:113;;;12094:112;12135:43;;;;444:12891;12135:43;;;:::o;444:12891::-;;;;;;;;;;;:::o;:::-;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;:::o;1796:162:3:-;1710:6;444:12891:1;-1:-1:-1;;;;;444:12891:1;735:10:12;1855:23:3;1851:101;;1796:162::o;1851:101::-;444:12891:1;;-1:-1:-1;;;1901:40:3;;735:10:12;1901:40:3;;;444:12891:1;;;1901:40:3;1219:160:11;444:12891:1;;-1:-1:-1;;;1328:43:11;;;;-1:-1:-1;;;;;444:12891:1;;;1328:43:11;;;444:12891:1;;;;;;;;;1328:43:11;;;444:12891:1;;;;;;;;;;;;;1328:43:11;444:12891:1;;;8370:720:11;;-1:-1:-1;8507:421:11;8370:720;8507:421;;;;;;;;;;;;-1:-1:-1;8507:421:11;;8942:15;;-1:-1:-1;;;;;;444:12891:1;;8960:26:11;:31;8942:68;8938:146;;8370:720;:::o;8938:146::-;444:12891:1;;-1:-1:-1;;;9033:40:11;;-1:-1:-1;;;;;444:12891:1;;;9033:40:11;;;444:12891:1;;;9033:40:11;8942:68;9009:1;8994:16;;8942:68;;8507:421;;;;-1:-1:-1;8507:421:11;;;;;2575:307:13;1899:1;2702:7;444:12891:1;2702:18:13;2698:86;;1899:1;2702:7;444:12891:1;2575:307:13:o;2698:86::-;444:12891:1;;-1:-1:-1;;;2743:30:13;;;;",
+        "linkReferences": {},
+        "immutableReferences": {
+            "638": [
+                {
+                    "start": 1026,
+                    "length": 32
+                },
+                {
+                    "start": 3807,
+                    "length": 32
+                },
+                {
+                    "start": 5233,
+                    "length": 32
+                },
+                {
+                    "start": 6092,
+                    "length": 32
+                },
+                {
+                    "start": 7067,
+                    "length": 32
+                }
+            ]
+        }
+    },
+    "methodIdentifiers": {
+        "BASIS_POINTS()": "e1f1c4a7",
+        "activeMarkets(uint256)": "3adfe6d0",
+        "authorizedResolvers(address)": "d794d2d9",
+        "cancelMarket(bytes32)": "bdb83289",
+        "claimWinnings(bytes32)": "e49b606c",
+        "collectedFees()": "9003adfe",
+        "createMarket(bytes32,uint8,string,uint256,bytes32,uint256,address)": "aad8b57b",
+        "getActiveMarkets()": "a5e973c3",
+        "getMarket(bytes32)": "c3c95c7b",
+        "getMarketBets(bytes32)": "b20c7f2d",
+        "getOdds(bytes32)": "e8ceea2f",
+        "getUserMarketBets(bytes32,address)": "9887531c",
+        "marketBets(bytes32,uint256)": "0e599d72",
+        "markets(bytes32)": "7564912b",
+        "maxBetAmount()": "cab11d5d",
+        "minBetAmount()": "fa968eea",
+        "owner()": "8da5cb5b",
+        "placeBet(bytes32,uint8,uint256)": "0bd12209",
+        "platformFee()": "26232a2e",
+        "refundBets(bytes32)": "025f9dc0",
+        "renounceOwnership()": "715018a6",
+        "resolveMarket(bytes32,uint8)": "5e382837",
+        "setBetLimits(uint256,uint256)": "7687dd49",
+        "setPlatformFee(uint256)": "12e8e2c3",
+        "setResolver(address,bool)": "1da6ed7c",
+        "somiToken()": "a489080a",
+        "transferOwnership(address)": "f2fde38b",
+        "userBetIndices(bytes32,address,uint256)": "8fb361f6",
+        "userBets(address,uint256)": "8068aa68",
+        "withdrawFees()": "476343ee"
+    },
+    "rawMetadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_somiToken\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ReentrancyGuardReentrantCall\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"SafeERC20FailedOperation\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"minAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"maxAmount\",\"type\":\"uint256\"}],\"name\":\"BetLimitsUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"option\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"BetPlaced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalRefunded\",\"type\":\"uint256\"}],\"name\":\"BetsRefunded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FeesWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"}],\"name\":\"MarketCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"enum PredictionMarket.MarketType\",\"name\":\"marketType\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"question\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"creator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"dataSourceId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"threshold\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"thresholdToken\",\"type\":\"address\"}],\"name\":\"MarketCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"winningOption\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalPool\",\"type\":\"uint256\"}],\"name\":\"MarketResolved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newFee\",\"type\":\"uint256\"}],\"name\":\"PlatformFeeUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"resolver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"authorized\",\"type\":\"bool\"}],\"name\":\"ResolverUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"WinningsClaimed\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"BASIS_POINTS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"activeMarkets\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"authorizedResolvers\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"}],\"name\":\"cancelMarket\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"}],\"name\":\"claimWinnings\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"collectedFees\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"},{\"internalType\":\"enum PredictionMarket.MarketType\",\"name\":\"_marketType\",\"type\":\"uint8\"},{\"internalType\":\"string\",\"name\":\"_question\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_resolutionTime\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"_dataSourceId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_threshold\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_thresholdToken\",\"type\":\"address\"}],\"name\":\"createMarket\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getActiveMarkets\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"}],\"name\":\"getMarket\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"internalType\":\"enum PredictionMarket.MarketType\",\"name\":\"marketType\",\"type\":\"uint8\"},{\"internalType\":\"string\",\"name\":\"question\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"creator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"createdAt\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"resolutionTime\",\"type\":\"uint256\"},{\"internalType\":\"enum PredictionMarket.MarketStatus\",\"name\":\"status\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"winningOption\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"totalPool\",\"type\":\"uint256\"},{\"internalType\":\"uint256[2]\",\"name\":\"optionPools\",\"type\":\"uint256[2]\"},{\"internalType\":\"bytes32\",\"name\":\"dataSourceId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"threshold\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"thresholdToken\",\"type\":\"address\"}],\"internalType\":\"struct PredictionMarket.Market\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"}],\"name\":\"getMarketBets\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"internalType\":\"uint8\",\"name\":\"option\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"claimed\",\"type\":\"bool\"}],\"internalType\":\"struct PredictionMarket.Bet[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"}],\"name\":\"getOdds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"yesOdds\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"noOdds\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"}],\"name\":\"getUserMarketBets\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"internalType\":\"uint8\",\"name\":\"option\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"claimed\",\"type\":\"bool\"}],\"internalType\":\"struct PredictionMarket.Bet[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"marketBets\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"internalType\":\"uint8\",\"name\":\"option\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"claimed\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"markets\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"marketId\",\"type\":\"bytes32\"},{\"internalType\":\"enum PredictionMarket.MarketType\",\"name\":\"marketType\",\"type\":\"uint8\"},{\"internalType\":\"string\",\"name\":\"question\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"creator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"createdAt\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"resolutionTime\",\"type\":\"uint256\"},{\"internalType\":\"enum PredictionMarket.MarketStatus\",\"name\":\"status\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"winningOption\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"totalPool\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"dataSourceId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"threshold\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"thresholdToken\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"maxBetAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"minBetAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"},{\"internalType\":\"uint8\",\"name\":\"_option\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"placeBet\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"platformFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"}],\"name\":\"refundBets\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_marketId\",\"type\":\"bytes32\"},{\"internalType\":\"uint8\",\"name\":\"_winningOption\",\"type\":\"uint8\"}],\"name\":\"resolveMarket\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_min\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_max\",\"type\":\"uint256\"}],\"name\":\"setBetLimits\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_fee\",\"type\":\"uint256\"}],\"name\":\"setPlatformFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_resolver\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"_authorized\",\"type\":\"bool\"}],\"name\":\"setResolver\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"somiToken\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"userBetIndices\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"userBets\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdrawFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Multi-event prediction market powered by Somnia Data Streams\",\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}],\"ReentrancyGuardReentrantCall()\":[{\"details\":\"Unauthorized reentrant call.\"}],\"SafeERC20FailedOperation(address)\":[{\"details\":\"An operation with an ERC-20 token failed.\"}]},\"kind\":\"dev\",\"methods\":{\"cancelMarket(bytes32)\":{\"details\":\"Cancel a market and enable refunds\"},\"claimWinnings(bytes32)\":{\"details\":\"Claim winnings from a resolved market\"},\"constructor\":{\"details\":\"Constructor\",\"params\":{\"_somiToken\":\"Address of the SOMI ERC20 token\"}},\"createMarket(bytes32,uint8,string,uint256,bytes32,uint256,address)\":{\"details\":\"Create a new prediction market\",\"params\":{\"_threshold\":\"Optional: for BLOCK markets (tx count) or TRANSFER markets (amount). Use 0 for GAME markets.\",\"_thresholdToken\":\"Optional: for TRANSFER markets, specify token address. Use address(0) for BLOCK/GAME markets.\"}},\"getActiveMarkets()\":{\"details\":\"Get all active markets\"},\"getMarket(bytes32)\":{\"details\":\"Get market details\"},\"getMarketBets(bytes32)\":{\"details\":\"Get all bets for a market\"},\"getOdds(bytes32)\":{\"details\":\"Calculate current odds for a market\"},\"getUserMarketBets(bytes32,address)\":{\"details\":\"Get user's bets for a specific market\"},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"placeBet(bytes32,uint8,uint256)\":{\"details\":\"Place a bet on a market using SOMI tokens\"},\"refundBets(bytes32)\":{\"details\":\"Refund all bets for a cancelled market\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"resolveMarket(bytes32,uint8)\":{\"details\":\"Resolve a market (only authorized resolvers)\"},\"setBetLimits(uint256,uint256)\":{\"details\":\"Set bet limits (only owner)\"},\"setPlatformFee(uint256)\":{\"details\":\"Set platform fee (only owner)\"},\"setResolver(address,bool)\":{\"details\":\"Set resolver authorization (only owner)\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"withdrawFees()\":{\"details\":\"Withdraw collected platform fees (only owner)\"}},\"title\":\"PredictionMarket\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Uses SOMI ERC20 token for betting\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/PredictionMarket.sol\":\"PredictionMarket\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/=node_modules/@openzeppelin/\",\":forge-std/=node_modules/forge-std/src/\",\":hardhat/=node_modules/hardhat/\"],\"viaIR\":true},\"sources\":{\"contracts/PredictionMarket.sol\":{\"keccak256\":\"0x6269358ab0267cc29d9bf4084bec614c3c63ffb6e2c54ae3c72c8063c2d4185d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9c4a8ea60453acb4810c1d246cdc9683cfaa048573f3fb940c63b35e32066daa\",\"dweb:/ipfs/QmX547BfmvBaavdhTj4Rb78givavy3g6Jcp8hE6N1g7byo\"]},\"node_modules/@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6\",\"dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a\"]},\"node_modules/@openzeppelin/contracts/interfaces/IERC1363.sol\":{\"keccak256\":\"0xd5ea07362ab630a6a3dee4285a74cf2377044ca2e4be472755ad64d7c5d4b69d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://da5e832b40fc5c3145d3781e2e5fa60ac2052c9d08af7e300dc8ab80c4343100\",\"dweb:/ipfs/QmTzf7N5ZUdh5raqtzbM11yexiUoLC9z3Ws632MCuycq1d\"]},\"node_modules/@openzeppelin/contracts/interfaces/IERC165.sol\":{\"keccak256\":\"0x0afcb7e740d1537b252cb2676f600465ce6938398569f09ba1b9ca240dde2dfc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1c299900ac4ec268d4570ecef0d697a3013cd11a6eb74e295ee3fbc945056037\",\"dweb:/ipfs/Qmab9owJoxcA7vJT5XNayCMaUR1qxqj1NDzzisduwaJMcZ\"]},\"node_modules/@openzeppelin/contracts/interfaces/IERC20.sol\":{\"keccak256\":\"0x1a6221315ce0307746c2c4827c125d821ee796c74a676787762f4778671d4f44\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1bb2332a7ee26dd0b0de9b7fe266749f54820c99ab6a3bcb6f7e6b751d47ee2d\",\"dweb:/ipfs/QmcRWpaBeCYkhy68PR3B4AgD7asuQk7PwkWxrvJbZcikLF\"]},\"node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5282825a626cfe924e504274b864a652b0023591fa66f06a067b25b51ba9b303\",\"dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV\"]},\"node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol\":{\"keccak256\":\"0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8150ceb4ac947e8a442b2a9c017e01e880b2be2dd958f1fa9bc405f4c5a86508\",\"dweb:/ipfs/QmbcBmFX66AY6Kbhnd5gx7zpkgqnUafo43XnmayAM7zVdB\"]},\"node_modules/@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12\",\"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF\"]},\"node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol\":{\"keccak256\":\"0x11a5a79827df29e915a12740caf62fe21ebe27c08c9ae3e09abe9ee3ba3866d3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3cf0c69ab827e3251db9ee6a50647d62c90ba580a4d7bbff21f2bea39e7b2f4a\",\"dweb:/ipfs/QmZiKwtKU1SBX4RGfQtY7PZfiapbbu6SZ9vizGQD9UHjRA\"]},\"node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x8891738ffe910f0cf2da09566928589bf5d63f4524dd734fd9cedbac3274dd5c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://971f954442df5c2ef5b5ebf1eb245d7105d9fbacc7386ee5c796df1d45b21617\",\"dweb:/ipfs/QmadRjHbkicwqwwh61raUEapaVEtaLMcYbQZWs9gUkgj3u\"]}},\"version\":1}",
+    "metadata": {
+        "compiler": {
+            "version": "0.8.20+commit.a1b79de6"
+        },
+        "language": "Solidity",
+        "output": {
+            "abi": [
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "_somiToken",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "constructor"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "owner",
+                            "type": "address"
+                        }
+                    ],
+                    "type": "error",
+                    "name": "OwnableInvalidOwner"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "type": "error",
+                    "name": "OwnableUnauthorizedAccount"
+                },
+                {
+                    "inputs": [],
+                    "type": "error",
+                    "name": "ReentrancyGuardReentrantCall"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "token",
+                            "type": "address"
+                        }
+                    ],
+                    "type": "error",
+                    "name": "SafeERC20FailedOperation"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "minAmount",
+                            "type": "uint256",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "maxAmount",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "BetLimitsUpdated",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "bettor",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "option",
+                            "type": "uint8",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "timestamp",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "BetPlaced",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "totalRefunded",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "BetsRefunded",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "owner",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "FeesWithdrawn",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "indexed": true
+                        }
+                    ],
+                    "type": "event",
+                    "name": "MarketCancelled",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "enum PredictionMarket.MarketType",
+                            "name": "marketType",
+                            "type": "uint8",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "question",
+                            "type": "string",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "creator",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "bytes32",
+                            "name": "dataSourceId",
+                            "type": "bytes32",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "threshold",
+                            "type": "uint256",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "thresholdToken",
+                            "type": "address",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "MarketCreated",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "winningOption",
+                            "type": "uint8",
+                            "indexed": false
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "totalPool",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "MarketResolved",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "previousOwner",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "newOwner",
+                            "type": "address",
+                            "indexed": true
+                        }
+                    ],
+                    "type": "event",
+                    "name": "OwnershipTransferred",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "newFee",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "PlatformFeeUpdated",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "resolver",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "authorized",
+                            "type": "bool",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "ResolverUpdated",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "bettor",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "WinningsClaimed",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "BASIS_POINTS",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "activeMarkets",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "authorizedResolvers",
+                    "outputs": [
+                        {
+                            "internalType": "bool",
+                            "name": "",
+                            "type": "bool"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "cancelMarket"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "claimWinnings"
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "collectedFees",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "enum PredictionMarket.MarketType",
+                            "name": "_marketType",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "_question",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_resolutionTime",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bytes32",
+                            "name": "_dataSourceId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_threshold",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "_thresholdToken",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "createMarket",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "getActiveMarkets",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32[]",
+                            "name": "",
+                            "type": "bytes32[]"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "getMarket",
+                    "outputs": [
+                        {
+                            "internalType": "struct PredictionMarket.Market",
+                            "name": "",
+                            "type": "tuple",
+                            "components": [
+                                {
+                                    "internalType": "bytes32",
+                                    "name": "marketId",
+                                    "type": "bytes32"
+                                },
+                                {
+                                    "internalType": "enum PredictionMarket.MarketType",
+                                    "name": "marketType",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "string",
+                                    "name": "question",
+                                    "type": "string"
+                                },
+                                {
+                                    "internalType": "address",
+                                    "name": "creator",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "createdAt",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "resolutionTime",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "enum PredictionMarket.MarketStatus",
+                                    "name": "status",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "winningOption",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalPool",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256[2]",
+                                    "name": "optionPools",
+                                    "type": "uint256[2]"
+                                },
+                                {
+                                    "internalType": "bytes32",
+                                    "name": "dataSourceId",
+                                    "type": "bytes32"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "threshold",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "address",
+                                    "name": "thresholdToken",
+                                    "type": "address"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "getMarketBets",
+                    "outputs": [
+                        {
+                            "internalType": "struct PredictionMarket.Bet[]",
+                            "name": "",
+                            "type": "tuple[]",
+                            "components": [
+                                {
+                                    "internalType": "address",
+                                    "name": "bettor",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "bytes32",
+                                    "name": "marketId",
+                                    "type": "bytes32"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "option",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "amount",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "timestamp",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "bool",
+                                    "name": "claimed",
+                                    "type": "bool"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "getOdds",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "yesOdds",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "noOdds",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "_user",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "getUserMarketBets",
+                    "outputs": [
+                        {
+                            "internalType": "struct PredictionMarket.Bet[]",
+                            "name": "",
+                            "type": "tuple[]",
+                            "components": [
+                                {
+                                    "internalType": "address",
+                                    "name": "bettor",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "bytes32",
+                                    "name": "marketId",
+                                    "type": "bytes32"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "option",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "amount",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "timestamp",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "bool",
+                                    "name": "claimed",
+                                    "type": "bool"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "marketBets",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "bettor",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "option",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "timestamp",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "claimed",
+                            "type": "bool"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "markets",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "marketId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "enum PredictionMarket.MarketType",
+                            "name": "marketType",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "question",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "creator",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "createdAt",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "resolutionTime",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "enum PredictionMarket.MarketStatus",
+                            "name": "status",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "winningOption",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "totalPool",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bytes32",
+                            "name": "dataSourceId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "threshold",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "thresholdToken",
+                            "type": "address"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "maxBetAmount",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "minBetAmount",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "owner",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "_option",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "placeBet"
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "platformFee",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "refundBets"
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "renounceOwnership"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "_marketId",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "_winningOption",
+                            "type": "uint8"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "resolveMarket"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_min",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_max",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "setBetLimits"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_fee",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "setPlatformFee"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "_resolver",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "_authorized",
+                            "type": "bool"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "setResolver"
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "somiToken",
+                    "outputs": [
+                        {
+                            "internalType": "contract IERC20",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "newOwner",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "transferOwnership"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "userBetIndices",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "userBets",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function",
+                    "name": "withdrawFees"
+                }
+            ],
+            "devdoc": {
+                "kind": "dev",
+                "methods": {
+                    "cancelMarket(bytes32)": {
+                        "details": "Cancel a market and enable refunds"
+                    },
+                    "claimWinnings(bytes32)": {
+                        "details": "Claim winnings from a resolved market"
+                    },
+                    "constructor": {
+                        "details": "Constructor",
+                        "params": {
+                            "_somiToken": "Address of the SOMI ERC20 token"
+                        }
+                    },
+                    "createMarket(bytes32,uint8,string,uint256,bytes32,uint256,address)": {
+                        "details": "Create a new prediction market",
+                        "params": {
+                            "_threshold": "Optional: for BLOCK markets (tx count) or TRANSFER markets (amount). Use 0 for GAME markets.",
+                            "_thresholdToken": "Optional: for TRANSFER markets, specify token address. Use address(0) for BLOCK/GAME markets."
+                        }
+                    },
+                    "getActiveMarkets()": {
+                        "details": "Get all active markets"
+                    },
+                    "getMarket(bytes32)": {
+                        "details": "Get market details"
+                    },
+                    "getMarketBets(bytes32)": {
+                        "details": "Get all bets for a market"
+                    },
+                    "getOdds(bytes32)": {
+                        "details": "Calculate current odds for a market"
+                    },
+                    "getUserMarketBets(bytes32,address)": {
+                        "details": "Get user's bets for a specific market"
+                    },
+                    "owner()": {
+                        "details": "Returns the address of the current owner."
+                    },
+                    "placeBet(bytes32,uint8,uint256)": {
+                        "details": "Place a bet on a market using SOMI tokens"
+                    },
+                    "refundBets(bytes32)": {
+                        "details": "Refund all bets for a cancelled market"
+                    },
+                    "renounceOwnership()": {
+                        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+                    },
+                    "resolveMarket(bytes32,uint8)": {
+                        "details": "Resolve a market (only authorized resolvers)"
+                    },
+                    "setBetLimits(uint256,uint256)": {
+                        "details": "Set bet limits (only owner)"
+                    },
+                    "setPlatformFee(uint256)": {
+                        "details": "Set platform fee (only owner)"
+                    },
+                    "setResolver(address,bool)": {
+                        "details": "Set resolver authorization (only owner)"
+                    },
+                    "transferOwnership(address)": {
+                        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+                    },
+                    "withdrawFees()": {
+                        "details": "Withdraw collected platform fees (only owner)"
+                    }
+                },
+                "version": 1
+            },
+            "userdoc": {
+                "kind": "user",
+                "methods": {},
+                "version": 1
+            }
+        },
+        "settings": {
+            "remappings": [
+                "@openzeppelin/=node_modules/@openzeppelin/",
+                "forge-std/=node_modules/forge-std/src/",
+                "hardhat/=node_modules/hardhat/"
+            ],
+            "optimizer": {
+                "enabled": true,
+                "runs": 200
+            },
+            "metadata": {
+                "bytecodeHash": "ipfs"
+            },
+            "compilationTarget": {
+                "contracts/PredictionMarket.sol": "PredictionMarket"
+            },
+            "evmVersion": "shanghai",
+            "libraries": {},
+            "viaIR": true
+        },
+        "sources": {
+            "contracts/PredictionMarket.sol": {
+                "keccak256": "0x6269358ab0267cc29d9bf4084bec614c3c63ffb6e2c54ae3c72c8063c2d4185d",
+                "urls": [
+                    "bzz-raw://9c4a8ea60453acb4810c1d246cdc9683cfaa048573f3fb940c63b35e32066daa",
+                    "dweb:/ipfs/QmX547BfmvBaavdhTj4Rb78givavy3g6Jcp8hE6N1g7byo"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/access/Ownable.sol": {
+                "keccak256": "0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb",
+                "urls": [
+                    "bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6",
+                    "dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/interfaces/IERC1363.sol": {
+                "keccak256": "0xd5ea07362ab630a6a3dee4285a74cf2377044ca2e4be472755ad64d7c5d4b69d",
+                "urls": [
+                    "bzz-raw://da5e832b40fc5c3145d3781e2e5fa60ac2052c9d08af7e300dc8ab80c4343100",
+                    "dweb:/ipfs/QmTzf7N5ZUdh5raqtzbM11yexiUoLC9z3Ws632MCuycq1d"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/interfaces/IERC165.sol": {
+                "keccak256": "0x0afcb7e740d1537b252cb2676f600465ce6938398569f09ba1b9ca240dde2dfc",
+                "urls": [
+                    "bzz-raw://1c299900ac4ec268d4570ecef0d697a3013cd11a6eb74e295ee3fbc945056037",
+                    "dweb:/ipfs/Qmab9owJoxcA7vJT5XNayCMaUR1qxqj1NDzzisduwaJMcZ"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/interfaces/IERC20.sol": {
+                "keccak256": "0x1a6221315ce0307746c2c4827c125d821ee796c74a676787762f4778671d4f44",
+                "urls": [
+                    "bzz-raw://1bb2332a7ee26dd0b0de9b7fe266749f54820c99ab6a3bcb6f7e6b751d47ee2d",
+                    "dweb:/ipfs/QmcRWpaBeCYkhy68PR3B4AgD7asuQk7PwkWxrvJbZcikLF"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+                "keccak256": "0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2",
+                "urls": [
+                    "bzz-raw://5282825a626cfe924e504274b864a652b0023591fa66f06a067b25b51ba9b303",
+                    "dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
+                "keccak256": "0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5",
+                "urls": [
+                    "bzz-raw://8150ceb4ac947e8a442b2a9c017e01e880b2be2dd958f1fa9bc405f4c5a86508",
+                    "dweb:/ipfs/QmbcBmFX66AY6Kbhnd5gx7zpkgqnUafo43XnmayAM7zVdB"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/utils/Context.sol": {
+                "keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
+                "urls": [
+                    "bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
+                    "dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
+                "keccak256": "0x11a5a79827df29e915a12740caf62fe21ebe27c08c9ae3e09abe9ee3ba3866d3",
+                "urls": [
+                    "bzz-raw://3cf0c69ab827e3251db9ee6a50647d62c90ba580a4d7bbff21f2bea39e7b2f4a",
+                    "dweb:/ipfs/QmZiKwtKU1SBX4RGfQtY7PZfiapbbu6SZ9vizGQD9UHjRA"
+                ],
+                "license": "MIT"
+            },
+            "node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+                "keccak256": "0x8891738ffe910f0cf2da09566928589bf5d63f4524dd734fd9cedbac3274dd5c",
+                "urls": [
+                    "bzz-raw://971f954442df5c2ef5b5ebf1eb245d7105d9fbacc7386ee5c796df1d45b21617",
+                    "dweb:/ipfs/QmadRjHbkicwqwwh61raUEapaVEtaLMcYbQZWs9gUkgj3u"
+                ],
+                "license": "MIT"
+            }
+        },
+        "version": 1
+    },
+    "id": 1
+}

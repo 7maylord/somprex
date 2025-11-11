@@ -1,0 +1,33 @@
+{
+  "name": "predex-resolver",
+  "version": "1.0.0",
+  "description": "Automatic market resolution service for PredEx using Somnia Data Streams",
+  "main": "dist/resolver.js",
+  "scripts": {
+    "dev": "tsx watch src/resolver.ts",
+    "build": "tsc",
+    "start": "node dist/resolver.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "blockchain",
+    "prediction-market",
+    "somnia",
+    "resolver"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@somnia-chain/streams": "^0.9.5",
+    "dotenv": "^17.2.3",
+    "viem": "^2.38.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

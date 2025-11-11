@@ -45,8 +45,9 @@ export default function GamePage() {
                 topics: log.topics,
               })
 
-              if (decoded.eventName === 'GameStarted') {
-                const extractedSessionId = decoded.args.sessionId as `0x${string}`
+              if (decoded.eventName === 'GameStarted' && decoded.args) {
+                const args = decoded.args as any
+                const extractedSessionId = args.sessionId as `0x${string}`
                 console.log('✅ Game started with sessionId:', extractedSessionId)
 
                 setSessionId(extractedSessionId)
