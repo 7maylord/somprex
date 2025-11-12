@@ -15,17 +15,32 @@ interface MarketCardProps {
 
 export default function MarketCard({ market }: MarketCardProps) {
   const [isBetModalOpen, setIsBetModalOpen] = useState(false)
+  const [now] = useState(() => Date.now())
   const { address, isConnected } = useAccount()
   const { writeContract, data: claimHash, isPending: isClaimPending } = useWriteContract()
   const { isSuccess: isClaimSuccess } = useWaitForTransactionReceipt({ hash: claimHash })
 
   const handleClaim = async () => {
+    console.log('🎯 handleClaim called')
+    console.log('  isConnected:', isConnected)
+    console.log('  address:', address)
+    console.log('  market:', market)
+    console.log('  marketId:', market.marketId)
+    console.log('  market status:', market.status)
+    console.log('  isResolved:', market.status === 2)
+
     if (!isConnected || !address) {
+      console.log('❌ Not connected or no address')
       toast.error('Please connect your wallet')
       return
     }
 
     try {
+      console.log('📝 Calling claimWinnings...')
+      console.log('  Contract:', process.env.NEXT_PUBLIC_MARKET_CONTRACT)
+      console.log('  Market ID:', market.marketId)
+      console.log('  Gas:', BigInt(5000000))
+
       toast.loading('Claiming winnings...', { id: 'claim-tx' })
 
       writeContract({
@@ -33,10 +48,15 @@ export default function MarketCard({ market }: MarketCardProps) {
         abi: PredictionMarketABI,
         functionName: 'claimWinnings',
         args: [market.marketId],
-        gas: BigInt(500000),
+        gas: BigInt(5000000),
       })
+
+      console.log('✅ writeContract called successfully')
     } catch (err: any) {
-      console.error('Claim error:', err)
+      console.error('❌ Claim error:', err)
+      console.error('  Error type:', typeof err)
+      console.error('  Error message:', err.message)
+      console.error('  Error stack:', err.stack)
       const errorMessage = err instanceof Error ? err.message : 'Failed to claim winnings'
       toast.error(errorMessage, { id: 'claim-tx' })
     }
@@ -103,8 +123,20 @@ export default function MarketCard({ market }: MarketCardProps) {
     return calculatedOdds
   }, [market.optionPools, market.marketId])
 
-  const isActive = market.status === 0 && Date.now() < Number(market.resolutionTime) * 1000
+  const isActive = market.status === 0 && now < Number(market.resolutionTime) * 1000
   const isResolved = market.status === 2
+  const isExpired = now >= Number(market.resolutionTime) * 1000
+
+  console.log('MarketCard status check:', {
+    marketId: market.marketId,
+    status: market.status,
+    isActive,
+    isResolved,
+    isExpired,
+    resolutionTime: market.resolutionTime,
+    now,
+    timeUntilResolution: Number(market.resolutionTime) * 1000 - now
+  })
 
   return (
     <>

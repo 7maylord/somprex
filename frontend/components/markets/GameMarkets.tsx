@@ -63,8 +63,8 @@ export default function GameMarkets() {
               question
             })
 
-            // Only include GAME markets (marketType === 2)
-            if (marketType === 2 && status === 0) {
+            // Only include GAME markets (marketType === 2) that are ACTIVE or RESOLVED
+            if (marketType === 2 && (status === 0 || status === 2)) {
               fetchedMarkets.push({
                 marketId: marketId as `0x${string}`,
                 marketType,

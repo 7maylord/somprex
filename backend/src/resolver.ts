@@ -121,30 +121,34 @@ async function loadActiveMarketsFromContract() {
     // Load each market's details
     for (const marketId of marketIds) {
       try {
-        const market = await publicClient.readContract({
+        const marketData = await publicClient.readContract({
           address: MARKET_CONTRACT,
           abi: PredictionMarketABI.abi,
           functionName: 'markets',
           args: [marketId],
         }) as any
 
+        // Destructure the array returned from Solidity
+        // [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, dataSourceId, threshold, thresholdToken]
+        const [, marketType, question, creator, , resolutionTime, status, , , , threshold, thresholdToken] = marketData
+
         // Only track ACTIVE markets (status = 0)
-        if (market.status === 0) {
+        if (status === 0) {
           activeMarkets.set(marketId, {
             marketId,
-            marketType: market.marketType,
-            question: market.question,
-            threshold: market.threshold,
-            thresholdToken: market.thresholdToken,
-            resolutionTime: market.resolutionTime,
-            creator: market.creator,
+            marketType,
+            question,
+            threshold,
+            thresholdToken,
+            resolutionTime,
+            creator,
           })
 
-          console.log(`   ✓ Tracking market: ${market.question}`)
-          console.log(`     Type: ${market.marketType} | Threshold: ${market.threshold.toString()}`)
+          console.log(`   ✓ Tracking market: ${question}`)
+          console.log(`     Type: ${marketType} | Threshold: ${threshold.toString()}`)
         }
       } catch (error) {
-        console.error(`   ✗ Failed to load market ${marketId}`)
+        console.error(`   ✗ Failed to load market ${marketId}:`, error)
       }
     }
 
@@ -321,7 +325,7 @@ async function checkBlockMarkets() {
 
       console.log(`\n🔍 Checking BLOCK market: ${market.question}`)
       console.log(`   Block ${blockNumber} has ${txCount} transactions`)
-      console.log(`   Threshold: ${market.threshold.toString()} transactions`)
+      console.log(`   Threshold: ${market.threshold ? market.threshold.toString() : 'undefined'} transactions`)
 
       // Parse question to determine if it's "more than" or "less than"
       const question = market.question.toLowerCase()

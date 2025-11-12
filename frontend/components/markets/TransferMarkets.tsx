@@ -64,8 +64,8 @@ export default function TransferMarkets() {
               question
             })
 
-            // Only include TRANSFER markets (marketType === 1)
-            if (marketType === 1 && status === 0) {
+            // Only include TRANSFER markets (marketType === 1) that are ACTIVE or RESOLVED
+            if (marketType === 1 && (status === 0 || status === 2)) {
               fetchedMarkets.push({
                 marketId: marketId as `0x${string}`,
                 marketType,

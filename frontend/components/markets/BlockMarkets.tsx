@@ -62,8 +62,8 @@ export default function BlockMarkets() {
               question
             })
 
-            // Only include BLOCK markets (marketType === 0)
-            if (marketType === 0 && status === 0) {
+            // Only include BLOCK markets (marketType === 0) that are ACTIVE or RESOLVED
+            if (marketType === 0 && (status === 0 || status === 2)) {
               fetchedMarkets.push({
                 marketId: marketId as `0x${string}`,
                 marketType,
