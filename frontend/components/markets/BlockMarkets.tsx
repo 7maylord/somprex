@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useReadContract } from 'wagmi'
+import { useReadContract, usePublicClient } from 'wagmi'
 import { Activity, Database } from 'lucide-react'
 import MarketCard from './MarketCard'
 import type { Market } from '@/lib/types'
@@ -10,6 +10,7 @@ import { PredictionMarketABI } from '@/abis'
 export default function BlockMarkets() {
   const [markets, setMarkets] = useState<Market[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const publicClient = usePublicClient()
 
   const { data: marketIds } = useReadContract({
     address: (process.env.NEXT_PUBLIC_MARKET_CONTRACT) as `0x${string}`,
@@ -19,48 +20,74 @@ export default function BlockMarkets() {
 
   useEffect(() => {
     const fetchMarkets = async () => {
-      if (!marketIds || !Array.isArray(marketIds) || marketIds.length === 0) {
+      console.log('BlockMarkets - marketIds:', marketIds)
+      console.log('BlockMarkets - publicClient:', publicClient)
+
+      if (!marketIds || !Array.isArray(marketIds) || marketIds.length === 0 || !publicClient) {
+        console.log('BlockMarkets - Early return:', {
+          hasMarketIds: !!marketIds,
+          isArray: Array.isArray(marketIds),
+          length: Array.isArray(marketIds) ? marketIds.length : 0,
+          hasPublicClient: !!publicClient
+        })
         setIsLoading(false)
         return
       }
 
       try {
-        // In production, fetch all market details
-        // For now, using mock data filtered by type
-        const mockMarkets: Market[] = [
-          {
-            marketId: '0x0001' as `0x${string}`,
-            marketType: 0,
-            question: 'Will the next block have more than 100 transactions?',
-            creator: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-            createdAt: BigInt(Date.now() - 3600000),
-            resolutionTime: BigInt(Date.now() + 7200000),
-            status: 0,
-            winningOption: 0,
-            totalPool: BigInt('5000000000000000000'),
-            optionPools: [BigInt('3000000000000000000'), BigInt('2000000000000000000')],
-            dataSourceId: '0x0000' as `0x${string}`,
-            threshold: BigInt(100),
-            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-          },
-          {
-            marketId: '0x0002' as `0x${string}`,
-            marketType: 0,
-            question: 'Will block time be under 1 second?',
-            creator: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-            createdAt: BigInt(Date.now() - 1800000),
-            resolutionTime: BigInt(Date.now() + 3600000),
-            status: 0,
-            winningOption: 0,
-            totalPool: BigInt('8000000000000000000'),
-            optionPools: [BigInt('5000000000000000000'), BigInt('3000000000000000000')],
-            dataSourceId: '0x0000' as `0x${string}`,
-            threshold: BigInt(1),
-            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-          },
-        ]
+        const fetchedMarkets: Market[] = []
 
-        setMarkets(mockMarkets)
+        // Fetch each market's details
+        for (const marketId of marketIds) {
+          try {
+            console.log(`BlockMarkets - Fetching market ${marketId}`)
+            const marketData = await publicClient.readContract({
+              address: process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`,
+              abi: PredictionMarketABI,
+              functionName: 'markets',
+              args: [marketId],
+            }) as any
+
+            console.log(`BlockMarkets - Market ${marketId} raw data:`, marketData)
+
+            // Markets returns: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
+            // Note: optionPools array [YES, NO] is flattened into two separate values
+            const [, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken] = marketData
+
+            const optionPools: [bigint, bigint] = [optionPool0 as bigint, optionPool1 as bigint]
+
+            console.log(`BlockMarkets - Market ${marketId} parsed:`, {
+              marketType,
+              status,
+              question
+            })
+
+            // Only include BLOCK markets (marketType === 0)
+            if (marketType === 0 && status === 0) {
+              fetchedMarkets.push({
+                marketId: marketId as `0x${string}`,
+                marketType,
+                question,
+                creator,
+                createdAt,
+                resolutionTime,
+                status,
+                winningOption,
+                totalPool,
+                optionPools,
+                dataSourceId,
+                threshold,
+                thresholdToken,
+              })
+              console.log(`BlockMarkets - Added BLOCK market ${marketId}`)
+            }
+          } catch (err) {
+            console.error(`Failed to fetch market ${marketId}:`, err)
+          }
+        }
+
+        console.log('BlockMarkets - Total fetched markets:', fetchedMarkets.length)
+        setMarkets(fetchedMarkets)
       } catch (error) {
         console.error('Error fetching markets:', error)
       } finally {
@@ -69,7 +96,7 @@ export default function BlockMarkets() {
     }
 
     fetchMarkets()
-  }, [marketIds])
+  }, [marketIds, publicClient])
 
   if (isLoading) {
     return (

@@ -109,21 +109,20 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
     }
 
     try {
-      const amountInWei = parseEther(betAmount)
+      // Approve a very large amount (essentially unlimited) to avoid repeated approvals
+      const maxApproval = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
 
-      console.log('Approving SOMI tokens:', {
-        amount: betAmount,
-        amountWei: amountInWei.toString(),
+      console.log('Approving SOMI tokens (max amount for convenience):', {
         spender: process.env.NEXT_PUBLIC_MARKET_CONTRACT
       })
 
-      toast.loading('Approving tokens...', { id: 'bet-tx' })
+      toast.loading('Approving tokens (one-time)...', { id: 'bet-tx' })
 
       writeContract({
         address: process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`,
         abi: SomiTokenABI,
         functionName: 'approve',
-        args: [process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`, amountInWei],
+        args: [process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`, maxApproval],
         gas: BigInt(100000), // 100k gas for approval
       })
     } catch (err: any) {
@@ -187,7 +186,7 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
         abi: PredictionMarketABI,
         functionName: 'placeBet',
         args: [market.marketId, selectedOption, amountInWei],
-        gas: BigInt(1000000), // 1M gas for placeBet
+        gas: BigInt(5000000),
       })
     } catch (err: any) {
       console.error('Bet error:', err)
@@ -324,7 +323,7 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
           <AlertCircle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
           <p className="text-sm text-gray-300">
             {needsApproval
-              ? 'You need to approve SOMI tokens before placing your bet. This is a two-step process.'
+              ? 'One-time approval needed. After this, you can bet without approving again.'
               : 'Betting is final. Make sure you understand the market before placing your bet.'}
           </p>
         </div>
@@ -350,7 +349,7 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
                 hasInsufficientBalance
               }
             >
-              {isPending || isConfirming ? 'Approving...' : '1. Approve SOMI'}
+              {isPending || isConfirming ? 'Approving...' : 'Approve'}
             </button>
           ) : (
             <button
@@ -364,7 +363,7 @@ export default function BetModal({ market, odds, onClose }: BetModalProps) {
                 hasInsufficientBalance
               }
             >
-              {isPending || isConfirming ? 'Confirming...' : '2. Place Bet'}
+              {isPending || isConfirming ? 'Confirming...' : 'Place Bet'}
             </button>
           )}
         </div>

@@ -1,17 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useReadContract } from 'wagmi'
+import { useReadContract, usePublicClient } from 'wagmi'
 import { ArrowRightLeft, Database } from 'lucide-react'
 import MarketCard from './MarketCard'
 import type { Market } from '@/lib/types'
 import { PredictionMarketABI } from '@/abis'
 
-const SOMI_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000' as `0x${string}` // Replace with actual
+const SOMI_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}` // Replace with actual
 
 export default function TransferMarkets() {
   const [markets, setMarkets] = useState<Market[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const publicClient = usePublicClient()
 
   const { data: marketIds } = useReadContract({
     address: (process.env.NEXT_PUBLIC_MARKET_CONTRACT) as `0x${string}`,
@@ -21,31 +22,74 @@ export default function TransferMarkets() {
 
   useEffect(() => {
     const fetchMarkets = async () => {
-      if (!marketIds || !Array.isArray(marketIds) || marketIds.length === 0) {
+      console.log('TransferMarkets - marketIds:', marketIds)
+      console.log('TransferMarkets - publicClient:', publicClient)
+
+      if (!marketIds || !Array.isArray(marketIds) || marketIds.length === 0 || !publicClient) {
+        console.log('TransferMarkets - Early return:', {
+          hasMarketIds: !!marketIds,
+          isArray: Array.isArray(marketIds),
+          length: Array.isArray(marketIds) ? marketIds.length : 0,
+          hasPublicClient: !!publicClient
+        })
         setIsLoading(false)
         return
       }
 
       try {
-        const mockMarkets: Market[] = [
-          {
-            marketId: '0x0003' as `0x${string}`,
-            marketType: 1,
-            question: 'Will the next SOMI transfer be over 1000 tokens?',
-            creator: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-            createdAt: BigInt(Date.now() - 2400000),
-            resolutionTime: BigInt(Date.now() + 5400000),
-            status: 0,
-            winningOption: 0,
-            totalPool: BigInt('6000000000000000000'),
-            optionPools: [BigInt('3500000000000000000'), BigInt('2500000000000000000')],
-            dataSourceId: '0x0000' as `0x${string}`,
-            threshold: BigInt(1000),
-            thresholdToken: process.env.NEXT_PUBLIC_SOMI_TOKEN as `0x${string}`,
-          },
-        ]
+        const fetchedMarkets: Market[] = []
 
-        setMarkets(mockMarkets)
+        // Fetch each market's details
+        for (const marketId of marketIds) {
+          try {
+            console.log(`TransferMarkets - Fetching market ${marketId}`)
+            const marketData = await publicClient.readContract({
+              address: process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`,
+              abi: PredictionMarketABI,
+              functionName: 'markets',
+              args: [marketId],
+            }) as any
+
+            console.log(`TransferMarkets - Market ${marketId} raw data:`, marketData)
+
+            // Markets returns: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
+            // Note: optionPools array [YES, NO] is flattened into two separate values
+            const [, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken] = marketData
+
+            const optionPools: [bigint, bigint] = [optionPool0 as bigint, optionPool1 as bigint]
+
+            console.log(`TransferMarkets - Market ${marketId} parsed:`, {
+              marketType,
+              status,
+              question
+            })
+
+            // Only include TRANSFER markets (marketType === 1)
+            if (marketType === 1 && status === 0) {
+              fetchedMarkets.push({
+                marketId: marketId as `0x${string}`,
+                marketType,
+                question,
+                creator,
+                createdAt,
+                resolutionTime,
+                status,
+                winningOption,
+                totalPool,
+                optionPools,
+                dataSourceId,
+                threshold,
+                thresholdToken,
+              })
+              console.log(`TransferMarkets - Added TRANSFER market ${marketId}`)
+            }
+          } catch (err) {
+            console.error(`Failed to fetch market ${marketId}:`, err)
+          }
+        }
+
+        console.log('TransferMarkets - Total fetched markets:', fetchedMarkets.length)
+        setMarkets(fetchedMarkets)
       } catch (error) {
         console.error('Error fetching markets:', error)
       } finally {
@@ -54,7 +98,7 @@ export default function TransferMarkets() {
     }
 
     fetchMarkets()
-  }, [marketIds])
+  }, [marketIds, publicClient])
 
   if (isLoading) {
     return (

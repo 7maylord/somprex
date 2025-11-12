@@ -12,10 +12,11 @@ export const formatAddress = (address: Hex): string => {
  */
 export const formatTimeRemaining = (timestamp: bigint): string => {
   const now = Date.now();
-  const timeLeft = Number(timestamp) - now;
-  
+  // Contract returns timestamp in seconds, convert to milliseconds
+  const timeLeft = (Number(timestamp) * 1000) - now;
+
   if (timeLeft <= 0) return 'Expired';
-  
+
   const seconds = Math.floor(timeLeft / 1000);
   
   if (seconds < 60) return `${seconds}s`;
@@ -85,7 +86,8 @@ export const isMarketActive = (
   status: number,
   resolutionTime: bigint
 ): boolean => {
-  return status === 0 && Date.now() < Number(resolutionTime);
+  // Contract returns timestamp in seconds, convert to milliseconds
+  return status === 0 && Date.now() < Number(resolutionTime) * 1000;
 };
 
 /**

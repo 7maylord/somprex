@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useReadContract } from 'wagmi'
+import { useReadContract, usePublicClient } from 'wagmi'
 import { Gamepad2, Database, Swords } from 'lucide-react'
 import Link from 'next/link'
 import MarketCard from './MarketCard'
@@ -11,6 +11,7 @@ import { PredictionMarketABI } from '@/abis'
 export default function GameMarkets() {
   const [markets, setMarkets] = useState<Market[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const publicClient = usePublicClient()
 
   const { data: marketIds } = useReadContract({
     address: (process.env.NEXT_PUBLIC_MARKET_CONTRACT) as `0x${string}`,
@@ -20,46 +21,74 @@ export default function GameMarkets() {
 
   useEffect(() => {
     const fetchMarkets = async () => {
-      if (!marketIds || !Array.isArray(marketIds) || marketIds.length === 0) {
+      console.log('GameMarkets - marketIds:', marketIds)
+      console.log('GameMarkets - publicClient:', publicClient)
+
+      if (!marketIds || !Array.isArray(marketIds) || marketIds.length === 0 || !publicClient) {
+        console.log('GameMarkets - Early return:', {
+          hasMarketIds: !!marketIds,
+          isArray: Array.isArray(marketIds),
+          length: Array.isArray(marketIds) ? marketIds.length : 0,
+          hasPublicClient: !!publicClient
+        })
         setIsLoading(false)
         return
       }
 
       try {
-        const mockMarkets: Market[] = [
-          {
-            marketId: '0x0004' as `0x${string}`,
-            marketType: 2,
-            question: 'Will the next boss be defeated in under 60 seconds?',
-            creator: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-            createdAt: BigInt(Date.now() - 1200000),
-            resolutionTime: BigInt(Date.now() + 4800000),
-            status: 0,
-            winningOption: 0,
-            totalPool: BigInt('10000000000000000000'),
-            optionPools: [BigInt('6000000000000000000'), BigInt('4000000000000000000')],
-            dataSourceId: '0x0000' as `0x${string}`,
-            threshold: BigInt(0),
-            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-          },
-          {
-            marketId: '0x0005' as `0x${string}`,
-            marketType: 2,
-            question: 'Will a player level up in the next game session?',
-            creator: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-            createdAt: BigInt(Date.now() - 600000),
-            resolutionTime: BigInt(Date.now() + 3000000),
-            status: 0,
-            winningOption: 0,
-            totalPool: BigInt('4000000000000000000'),
-            optionPools: [BigInt('2200000000000000000'), BigInt('1800000000000000000')],
-            dataSourceId: '0x0000' as `0x${string}`,
-            threshold: BigInt(0),
-            thresholdToken: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-          },
-        ]
+        const fetchedMarkets: Market[] = []
 
-        setMarkets(mockMarkets)
+        // Fetch each market's details
+        for (const marketId of marketIds) {
+          try {
+            console.log(`GameMarkets - Fetching market ${marketId}`)
+            const marketData = await publicClient.readContract({
+              address: process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`,
+              abi: PredictionMarketABI,
+              functionName: 'markets',
+              args: [marketId],
+            }) as any
+
+            console.log(`GameMarkets - Market ${marketId} raw data:`, marketData)
+
+            // Markets returns: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
+            // Note: optionPools array [YES, NO] is flattened into two separate values
+            const [, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken] = marketData
+
+            const optionPools: [bigint, bigint] = [optionPool0 as bigint, optionPool1 as bigint]
+
+            console.log(`GameMarkets - Market ${marketId} parsed:`, {
+              marketType,
+              status,
+              question
+            })
+
+            // Only include GAME markets (marketType === 2)
+            if (marketType === 2 && status === 0) {
+              fetchedMarkets.push({
+                marketId: marketId as `0x${string}`,
+                marketType,
+                question,
+                creator,
+                createdAt,
+                resolutionTime,
+                status,
+                winningOption,
+                totalPool,
+                optionPools,
+                dataSourceId,
+                threshold,
+                thresholdToken,
+              })
+              console.log(`GameMarkets - Added GAME market ${marketId}`)
+            }
+          } catch (err) {
+            console.error(`Failed to fetch market ${marketId}:`, err)
+          }
+        }
+
+        console.log('GameMarkets - Total fetched markets:', fetchedMarkets.length)
+        setMarkets(fetchedMarkets)
       } catch (error) {
         console.error('Error fetching markets:', error)
       } finally {
@@ -68,7 +97,7 @@ export default function GameMarkets() {
     }
 
     fetchMarkets()
-  }, [marketIds])
+  }, [marketIds, publicClient])
 
   if (isLoading) {
     return (

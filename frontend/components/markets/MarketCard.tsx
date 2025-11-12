@@ -1,10 +1,13 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Clock, TrendingUp, Users } from 'lucide-react'
+import { Clock, TrendingUp, Trophy } from 'lucide-react'
 import { formatTimeRemaining, formatTokenAmount, formatOdds, formatPercentage, getMarketTypeLabel } from '@/utils/format'
 import type { Market } from '@/lib/types'
 import BetModal from './BetModal'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { PredictionMarketABI } from '@/abis'
+import { toast } from 'sonner'
 
 interface MarketCardProps {
   market: Market
@@ -12,6 +15,37 @@ interface MarketCardProps {
 
 export default function MarketCard({ market }: MarketCardProps) {
   const [isBetModalOpen, setIsBetModalOpen] = useState(false)
+  const { address, isConnected } = useAccount()
+  const { writeContract, data: claimHash, isPending: isClaimPending } = useWriteContract()
+  const { isSuccess: isClaimSuccess } = useWaitForTransactionReceipt({ hash: claimHash })
+
+  const handleClaim = async () => {
+    if (!isConnected || !address) {
+      toast.error('Please connect your wallet')
+      return
+    }
+
+    try {
+      toast.loading('Claiming winnings...', { id: 'claim-tx' })
+
+      writeContract({
+        address: process.env.NEXT_PUBLIC_MARKET_CONTRACT as `0x${string}`,
+        abi: PredictionMarketABI,
+        functionName: 'claimWinnings',
+        args: [market.marketId],
+        gas: BigInt(500000),
+      })
+    } catch (err: any) {
+      console.error('Claim error:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to claim winnings'
+      toast.error(errorMessage, { id: 'claim-tx' })
+    }
+  }
+
+  // Handle successful claim
+  if (isClaimSuccess) {
+    toast.success('Winnings claimed successfully! 🎉', { id: 'claim-tx' })
+  }
 
   // Calculate odds locally instead of using SDS hook
   const odds = useMemo(() => {
@@ -19,22 +53,57 @@ export default function MarketCard({ market }: MarketCardProps) {
     const noPool = Number(market.optionPools[1])
     const total = yesPool + noPool
 
+    console.log('MarketCard odds calculation:', {
+      marketId: market.marketId,
+      yesPool,
+      noPool,
+      total,
+      optionPools: market.optionPools
+    })
+
+    // No bets yet - show even odds
     if (total === 0) {
-      return { yes: 2.0, no: 2.0, yesProb: 0.5, noProb: 0.5 }
+      return { yes: 2.0, no: 2.0, yesProb: 50, noProb: 50 }
     }
 
-    const yesProb = yesPool / total
-    const noProb = noPool / total
+    // Only one side has bets - show implied odds
+    // If only YES has bets, YES bettors break even (1x), NO would win entire pool
+    // If only NO has bets, NO bettors break even (1x), YES would win entire pool
+    if (yesPool === 0) {
+      return {
+        yes: 2.0, // Small implied odds when no one has bet
+        no: 1.0, // Break even
+        yesProb: 0,
+        noProb: 100
+      }
+    }
 
-    return {
-      yes: yesProb > 0 ? 1 / yesProb : 999,
-      no: noProb > 0 ? 1 / noProb : 999,
+    if (noPool === 0) {
+      return {
+        yes: 1.0, // Break even
+        no: 2.0, // Small implied odds when no one has bet
+        yesProb: 100,
+        noProb: 0
+      }
+    }
+
+    // Both sides have bets - calculate parimutuel odds
+    const yesProb = (yesPool / total) * 100
+    const noProb = (noPool / total) * 100
+
+    const calculatedOdds = {
+      yes: total / yesPool,
+      no: total / noPool,
       yesProb,
       noProb
     }
-  }, [market.optionPools])
 
-  const isActive = market.status === 0 && Date.now() < Number(market.resolutionTime)
+    console.log('MarketCard calculated odds:', calculatedOdds)
+
+    return calculatedOdds
+  }, [market.optionPools, market.marketId])
+
+  const isActive = market.status === 0 && Date.now() < Number(market.resolutionTime) * 1000
   const isResolved = market.status === 2
 
   return (
@@ -68,7 +137,7 @@ export default function MarketCard({ market }: MarketCardProps) {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
+        <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
           <div className="flex items-center space-x-2">
             <TrendingUp className="w-4 h-4 text-primary-500" />
             <div>
@@ -81,13 +150,6 @@ export default function MarketCard({ market }: MarketCardProps) {
             <div>
               <div className="text-gray-400 text-xs">Ends</div>
               <div className="font-semibold">{formatTimeRemaining(market.resolutionTime)}</div>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Users className="w-4 h-4 text-blue-500" />
-            <div>
-              <div className="text-gray-400 text-xs">Bets</div>
-              <div className="font-semibold">--</div>
             </div>
           </div>
         </div>
@@ -103,10 +165,20 @@ export default function MarketCard({ market }: MarketCardProps) {
         )}
 
         {isResolved && (
-          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 text-center">
-            <div className="text-sm font-semibold">
-              Winner: {market.winningOption === 0 ? '✅ YES' : '❌ NO'}
+          <div className="space-y-3">
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 text-center">
+              <div className="text-sm font-semibold">
+                Winner: {market.winningOption === 0 ? '✅ YES' : '❌ NO'}
+              </div>
             </div>
+            <button
+              onClick={handleClaim}
+              disabled={isClaimPending || !isConnected}
+              className="btn-primary w-full flex items-center justify-center space-x-2"
+            >
+              <Trophy className="w-4 h-4" />
+              <span>{isClaimPending ? 'Claiming...' : 'Claim Winnings'}</span>
+            </button>
           </div>
         )}
       </div>
