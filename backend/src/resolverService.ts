@@ -1,7 +1,10 @@
-import { createPublicClient, createWalletClient, http, parseAbiItem } from 'viem'
+import { createPublicClient, createWalletClient, http, webSocket, parseAbiItem, keccak256 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { defineChain } from 'viem'
+import { SDK } from '@somnia-chain/streams'
+import { SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
 import PredictionMarketABI from '../abis/PredictionMarket.json'
+import { getSchemaForMarketType, MarketType } from './dataStreams'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -33,6 +36,7 @@ const MARKET_CONTRACT = process.env.MARKET_CONTRACT as `0x${string}`
 const SOMI_TOKEN = process.env.SOMI_TOKEN as `0x${string}`
 const GAME_CONTRACT = process.env.GAME_CONTRACT as `0x${string}`
 const RPC_URL = process.env.SOMNIA_RPC_URL!
+const WS_URL = process.env.SOMNIA_WS_URL || RPC_URL.replace('https://', 'wss://')
 const PRIVATE_KEY = process.env.RESOLVER_PRIVATE_KEY as `0x${string}`
 
 if (!MARKET_CONTRACT || !SOMI_TOKEN || !RPC_URL || !PRIVATE_KEY) {
@@ -44,16 +48,29 @@ if (!MARKET_CONTRACT || !SOMI_TOKEN || !RPC_URL || !PRIVATE_KEY) {
 // Initialize Viem clients
 const account = privateKeyToAccount(PRIVATE_KEY)
 
+// HTTP client for contract interactions
 const publicClient = createPublicClient({
   chain: somniaTestnet,
   transport: http(RPC_URL),
-  pollingInterval: 1000 // Poll every 1 second for new events
+  pollingInterval: 1000
+})
+
+// WebSocket client for Data Streams subscriptions
+const wsPublicClient = createPublicClient({
+  chain: somniaTestnet,
+  transport: webSocket(WS_URL),
 })
 
 const walletClient = createWalletClient({
   chain: somniaTestnet,
   transport: http(RPC_URL),
   account
+})
+
+// Initialize Somnia Data Streams SDK
+const dataStreamsSDK = new SDK({
+  public: wsPublicClient,
+  wallet: walletClient,
 })
 
 // Track active markets
@@ -65,6 +82,7 @@ interface TrackedMarket {
   thresholdToken: `0x${string}`
   resolutionTime: bigint
   creator: `0x${string}`
+  dataSourceId: `0x${string}` // Somnia Data Streams identifier
 }
 
 const activeMarkets = new Map<string, TrackedMarket>()
@@ -129,8 +147,8 @@ async function loadActiveMarketsFromContract() {
         }) as any
 
         // Destructure the array returned from Solidity
-        // [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, dataSourceId, threshold, thresholdToken]
-        const [, marketType, question, creator, , resolutionTime, status, , , , threshold, thresholdToken] = marketData
+        // [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
+        const [, marketType, question, creator, , resolutionTime, status, , , , , dataSourceId, threshold, thresholdToken] = marketData
 
         // Only track ACTIVE markets (status = 0)
         if (status === 0) {
@@ -142,10 +160,17 @@ async function loadActiveMarketsFromContract() {
             thresholdToken,
             resolutionTime,
             creator,
+            dataSourceId,
           })
 
           console.log(`   ✓ Tracking market: ${question}`)
-          console.log(`     Type: ${marketType} | Threshold: ${threshold.toString()}`)
+          console.log(`     Type: ${marketType} | Threshold: ${threshold.toString()} | DataStream: ${dataSourceId}`)
+
+          // Subscribe to Data Streams for this market
+          const trackedMarket = activeMarkets.get(marketId)
+          if (trackedMarket) {
+            await subscribeToDataStream(trackedMarket)
+          }
         }
       } catch (error) {
         console.error(`   ✗ Failed to load market ${marketId}:`, error)
@@ -155,6 +180,146 @@ async function loadActiveMarketsFromContract() {
     console.log(`\n✅ Loaded ${activeMarkets.size} active markets\n`)
   } catch (error) {
     console.error('❌ Failed to load markets from contract:', error)
+  }
+}
+
+// ===== SOMNIA DATA STREAMS SUBSCRIPTIONS =====
+
+async function subscribeToDataStream(market: TrackedMarket) {
+  // Only subscribe if market has a valid dataSourceId
+  if (!market.dataSourceId || market.dataSourceId === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+    console.log(`   ⏭️  Skipping Data Streams subscription (no dataSourceId)`)
+    return
+  }
+
+  try {
+    console.log(`📡 Subscribing to Data Stream: ${market.dataSourceId}`)
+
+    // Subscribe to the data stream for real-time updates
+    await dataStreamsSDK.streams.subscribe({
+      somniaStreamsEventId: market.dataSourceId,
+      ethCalls: [], // No additional eth calls needed
+      onlyPushChanges: false, // Push all events, not just changes
+      onData: async (event: any) => {
+        console.log(`\n📊 Data Stream update for market: ${market.question}`)
+        console.log(`   Event data:`, event)
+
+        // Check if market is ready for resolution
+        if (!isReadyForResolution(market)) {
+          console.log(`   ⏰ Market not yet ready for resolution`)
+          return
+        }
+
+        // Determine winning option based on market type and event data
+        let winningOption: number | null = null
+
+        // For TRANSFER markets: check if transfer amount meets threshold
+        if (market.marketType === 1 && event.value) {
+          const transferAmount = BigInt(event.value)
+          const question = market.question.toLowerCase()
+
+          if (question.includes('more than') || question.includes('over') || question.includes('>')) {
+            winningOption = transferAmount > market.threshold ? 0 : 1
+          } else if (question.includes('less than') || question.includes('under') || question.includes('<')) {
+            winningOption = transferAmount < market.threshold ? 0 : 1
+          }
+        }
+
+        // For GAME markets: check if time/damage meets threshold
+        if (market.marketType === 2 && event.timeTaken) {
+          const timeTaken = BigInt(event.timeTaken)
+          const question = market.question.toLowerCase()
+
+          if (question.includes('less than') || question.includes('under') || question.includes('<')) {
+            winningOption = timeTaken < market.threshold ? 0 : 1
+          } else if (question.includes('more than') || question.includes('over') || question.includes('>')) {
+            winningOption = timeTaken > market.threshold ? 0 : 1
+          }
+        }
+
+        if (winningOption !== null) {
+          console.log(`   → Result: ${winningOption === 0 ? 'YES' : 'NO'} wins`)
+          await callResolveMarket(market.marketId, winningOption)
+        }
+      },
+      onError: (error: any) => {
+        console.error(`❌ Data Stream subscription error for ${market.marketId}:`, error)
+      }
+    })
+
+    console.log(`✅ Subscribed to Data Stream for market: ${market.question}`)
+  } catch (error) {
+    console.error(`❌ Failed to subscribe to Data Stream:`, error)
+  }
+}
+
+// ===== DATA STREAMS EVENT PUBLISHING =====
+
+/**
+ * Publish event data to Somnia Data Streams using setAndEmitEvents
+ */
+async function publishToDataStream(
+  market: TrackedMarket,
+  eventData: { [key: string]: any }
+) {
+  // Skip if no valid dataSourceId
+  if (!market.dataSourceId || market.dataSourceId === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+    return
+  }
+
+  try {
+    const schema = getSchemaForMarketType(market.marketType as MarketType)
+    const encoder = new SchemaEncoder(schema)
+
+    // Encode data based on market type
+    let encodedData: any
+
+    if (market.marketType === MarketType.BLOCK && eventData.blockNumber && eventData.txCount) {
+      encodedData = encoder.encodeData([
+        { name: 'blockNumber', value: eventData.blockNumber, type: 'uint256' },
+        { name: 'txCount', value: eventData.txCount, type: 'uint256' },
+        { name: 'timestamp', value: eventData.timestamp || BigInt(Math.floor(Date.now() / 1000)), type: 'uint256' },
+        { name: 'marketId', value: market.marketId, type: 'bytes32' },
+      ])
+    } else if (market.marketType === MarketType.TRANSFER && eventData.from && eventData.to && eventData.value) {
+      encodedData = encoder.encodeData([
+        { name: 'from', value: eventData.from, type: 'address' },
+        { name: 'to', value: eventData.to, type: 'address' },
+        { name: 'value', value: eventData.value, type: 'uint256' },
+        { name: 'token', value: eventData.token || market.thresholdToken, type: 'address' },
+        { name: 'timestamp', value: eventData.timestamp || BigInt(Math.floor(Date.now() / 1000)), type: 'uint256' },
+        { name: 'marketId', value: market.marketId, type: 'bytes32' },
+      ])
+    } else if (market.marketType === MarketType.GAME && eventData.player && eventData.sessionId) {
+      encodedData = encoder.encodeData([
+        { name: 'player', value: eventData.player, type: 'address' },
+        { name: 'sessionId', value: eventData.sessionId, type: 'bytes32' },
+        { name: 'timeTaken', value: eventData.timeTaken, type: 'uint256' },
+        { name: 'totalDamage', value: eventData.totalDamage, type: 'uint256' },
+        { name: 'timestamp', value: eventData.timestamp || BigInt(Math.floor(Date.now() / 1000)), type: 'uint256' },
+        { name: 'marketId', value: market.marketId, type: 'bytes32' },
+      ])
+    } else {
+      console.log('⏭️  Skipping Data Streams publish (incomplete event data)')
+      return
+    }
+
+    // Generate a unique data ID
+    const dataId = keccak256(
+      new TextEncoder().encode(`${market.marketId}-${Date.now()}`)
+    )
+
+    console.log(`📤 Publishing to Data Stream: ${market.dataSourceId}`)
+
+    // Publish data and emit event atomically
+    const txHash = await dataStreamsSDK.streams.setAndEmitEvents(
+      [{ id: dataId, schemaId: market.dataSourceId, data: encodedData }],
+      [{ id: 'MarketEvent', argumentTopics: [market.marketId], data: '0x' }]
+    )
+
+    console.log(`✅ Data Stream event published! Tx: ${txHash}`)
+  } catch (error) {
+    console.error(`❌ Failed to publish to Data Stream:`, error)
   }
 }
 
@@ -184,24 +349,34 @@ async function subscribeToMarketCreation() {
 
         // Get full market details from contract
         try {
-          const market = await publicClient.readContract({
+          const marketData = await publicClient.readContract({
             address: MARKET_CONTRACT,
             abi: PredictionMarketABI.abi,
             functionName: 'markets',
             args: [args.marketId],
           }) as any
 
+          // Destructure the array: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
+          const [, marketType, question, creator, , resolutionTime, , , , , , dataSourceId, threshold, thresholdToken] = marketData
+
           activeMarkets.set(args.marketId, {
             marketId: args.marketId,
-            marketType: market.marketType,
-            question: market.question,
-            threshold: market.threshold,
-            thresholdToken: market.thresholdToken,
-            resolutionTime: market.resolutionTime,
-            creator: market.creator,
+            marketType,
+            question,
+            threshold,
+            thresholdToken,
+            resolutionTime,
+            creator,
+            dataSourceId,
           })
 
           console.log(`   ✅ Now tracking this market`)
+
+          // Subscribe to Data Streams for this new market
+          const trackedMarket = activeMarkets.get(args.marketId)
+          if (trackedMarket) {
+            await subscribeToDataStream(trackedMarket)
+          }
         } catch (error) {
           console.error(`   ❌ Failed to fetch market details`)
         }
@@ -229,7 +404,19 @@ async function subscribeToTransfers() {
 
         // Check all TRANSFER markets
         for (const [marketId, market] of activeMarkets.entries()) {
-          if (market.marketType !== 1 || !isReadyForResolution(market)) continue
+          if (market.marketType !== 1) continue
+
+          // Publish to Data Streams regardless of resolution status
+          await publishToDataStream(market, {
+            from,
+            to,
+            value,
+            token: SOMI_TOKEN,
+            timestamp: BigInt(Math.floor(Date.now() / 1000)),
+          })
+
+          // Only resolve if ready
+          if (!isReadyForResolution(market)) continue
 
           console.log(`\n🔍 Checking TRANSFER market: ${market.question}`)
           console.log(`   Transfer amount: ${value.toString()}`)
@@ -283,7 +470,19 @@ async function subscribeToGameEvents() {
 
         // Check all GAME markets
         for (const [marketId, market] of activeMarkets.entries()) {
-          if (market.marketType !== 2 || !isReadyForResolution(market)) continue
+          if (market.marketType !== 2) continue
+
+          // Publish to Data Streams regardless of resolution status
+          await publishToDataStream(market, {
+            player,
+            sessionId,
+            timeTaken,
+            totalDamage,
+            timestamp: BigInt(Math.floor(Date.now() / 1000)),
+          })
+
+          // Only resolve if ready
+          if (!isReadyForResolution(market)) continue
 
           console.log(`\n🔍 Checking GAME market: ${market.question}`)
           console.log(`   Time taken: ${timeTaken.toString()}`)
@@ -321,7 +520,17 @@ async function checkBlockMarkets() {
     const txCount = latestBlock.transactions.length
 
     for (const [marketId, market] of activeMarkets.entries()) {
-      if (market.marketType !== 0 || !isReadyForResolution(market)) continue
+      if (market.marketType !== 0) continue
+
+      // Publish to Data Streams regardless of resolution status
+      await publishToDataStream(market, {
+        blockNumber,
+        txCount: BigInt(txCount),
+        timestamp: latestBlock.timestamp,
+      })
+
+      // Only resolve if ready
+      if (!isReadyForResolution(market)) continue
 
       console.log(`\n🔍 Checking BLOCK market: ${market.question}`)
       console.log(`   Block ${blockNumber} has ${txCount} transactions`)
@@ -377,7 +586,7 @@ function startPeriodicCheck() {
 
 // ===== MAIN =====
 
-async function main() {
+export async function startResolverService() {
   console.log('=' .repeat(60))
   console.log('🚀 PredEx Auto-Resolver Service')
   console.log('=' .repeat(60))
@@ -408,23 +617,24 @@ async function main() {
 
     console.log('✅ All systems active!')
     console.log('👀 Watching for markets to resolve...\n')
-    console.log('Press Ctrl+C to stop\n')
 
   } catch (error) {
     console.error('❌ Resolver service failed:', error)
-    process.exit(1)
+    throw error
   }
 }
 
-// Handle graceful shutdown
-process.on('SIGINT', () => {
-  console.log('\n\n👋 Shutting down resolver service...')
-  console.log(`   Tracked ${activeMarkets.size} markets at shutdown`)
-  process.exit(0)
-})
-
-// Start the service
-main().catch((error) => {
-  console.error('❌ Fatal error:', error)
-  process.exit(1)
-})
+// Export active markets count for API endpoints
+export function getResolverStats() {
+  return {
+    activeMarkets: activeMarkets.size,
+    markets: Array.from(activeMarkets.values()).map(m => ({
+      marketId: m.marketId,
+      question: m.question,
+      marketType: m.marketType,
+      threshold: m.threshold.toString(),
+      resolutionTime: Number(m.resolutionTime),
+      dataSourceId: m.dataSourceId,
+    }))
+  }
+}

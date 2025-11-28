@@ -2,11 +2,11 @@
   "name": "predex-resolver",
   "version": "1.0.0",
   "description": "Automatic market resolution service for PredEx using Somnia Data Streams",
-  "main": "dist/resolver.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/resolver.ts",
+    "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/resolver.js",
+    "start": "node dist/index.js",
     "test": "echo \"No tests yet\" && exit 0"
   },
   "keywords": [
@@ -18,9 +18,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@ethereum-attestation-service/eas-sdk": "^2.9.0",
     "@somnia-chain/streams": "^0.9.5",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "viem": "^2.38.6"
+    "express": "^4.21.2",
+    "viem": "^2.37.8"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { keccak256, encodePacked } from 'viem'
 import { MarketType } from '@/lib/types'
 import { PredictionMarketABI } from '@/abis'
+import { useDataStreams } from '@/hooks/useDataStreams'
 
 interface CreateMarketModalProps {
   onClose: () => void
@@ -15,6 +16,7 @@ interface CreateMarketModalProps {
 export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
   const { address, isConnected } = useAccount()
   const publicClient = usePublicClient()
+  const { getOrRegisterSchemaId, isInitialized } = useDataStreams()
   const [marketType, setMarketType] = useState<MarketType>(MarketType.BLOCK)
   const [question, setQuestion] = useState('')
   const [duration, setDuration] = useState(2) // duration value
@@ -102,8 +104,16 @@ export default function CreateMarketModal({ onClose }: CreateMarketModalProps) {
       const resolutionTimeSeconds = currentBlockTime + durationInSeconds
       const resolutionTime = BigInt(resolutionTimeSeconds)
 
-      // Use zero address for dataSourceId (can be updated based on market type)
-      const dataSourceId = '0x0000000000000000000000000000000000000000000000000000000000000000' as `0x${string}`
+      // Get or register Data Streams schema ID for this market type
+      toast.loading('Registering Data Streams schema...', { id: 'create-market' })
+      const dataSourceId = await getOrRegisterSchemaId(marketType)
+
+      if (!dataSourceId) {
+        toast.error('Failed to register Data Streams schema. Please try again.', { id: 'create-market' })
+        return
+      }
+
+      console.log('Using Data Streams schema ID:', dataSourceId)
 
       // Threshold: optional, defaults to 0 for GAME markets
       const thresholdValue = threshold ? BigInt(threshold) : BigInt(0)
