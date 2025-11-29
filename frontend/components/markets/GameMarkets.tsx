@@ -51,11 +51,9 @@ export default function GameMarkets() {
 
             console.log(`GameMarkets - Market ${marketId} raw data:`, marketData)
 
-            // Markets returns: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
-            // Note: optionPools array [YES, NO] is flattened into two separate values
-            const [, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken] = marketData
-
-            const optionPools: [bigint, bigint] = [optionPool0 as bigint, optionPool1 as bigint]
+            // Markets returns: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPools[2], dataSourceId, threshold, thresholdToken]
+            // Note: optionPools is a single array [YES, NO], not two separate values
+            const [, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPools, dataSourceId, threshold, thresholdToken] = marketData
 
             console.log(`GameMarkets - Market ${marketId} parsed:`, {
               marketType,

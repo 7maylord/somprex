@@ -26,10 +26,10 @@ export default function Home() {
               <div className="flex items-center space-x-2">
                 <TrendingUp className="w-8 h-8 text-primary-500" />
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-                  Predex
+                  SomPrex
                 </h1>
               </div>
-              <span className="badge badge-primary">Oracle-Free</span>
+              <span className="badge badge-primary">Powered by Somnia</span>
             </div>
 
             <div className="flex items-center space-x-4">

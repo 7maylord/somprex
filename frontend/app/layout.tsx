@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Predex',
-  description: 'Predex — oracle-free prediction markets powered by on-chain data',
+  title: 'SomPrex - Real-Time Prediction Markets',
+  description: 'SomPrex — Oracle-free prediction markets powered by Somnia Data Streams',
 }
 
 export default function RootLayout({

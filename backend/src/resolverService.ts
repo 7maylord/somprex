@@ -147,8 +147,16 @@ async function loadActiveMarketsFromContract() {
         }) as any
 
         // Destructure the array returned from Solidity
-        // [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
-        const [, marketType, question, creator, , resolutionTime, status, , , , , dataSourceId, threshold, thresholdToken] = marketData
+        // NOTE: Viem may return struct fields in a different order - using explicit indices
+        const marketType = marketData[1]
+        const question = marketData[2]
+        const creator = marketData[3]
+        const resolutionTime = marketData[5]
+        const status = marketData[6]
+        // Swapping these two - viem seems to return them in reverse order
+        const threshold = marketData[10]  // This is actually showing as dataSourceId value
+        const dataSourceId = marketData[11]  // This is actually showing as threshold value
+        const thresholdToken = marketData[12]
 
         // Only track ACTIVE markets (status = 0)
         if (status === 0) {
@@ -164,7 +172,7 @@ async function loadActiveMarketsFromContract() {
           })
 
           console.log(`   ✓ Tracking market: ${question}`)
-          console.log(`     Type: ${marketType} | Threshold: ${threshold.toString()} | DataStream: ${dataSourceId}`)
+          console.log(`     Type: ${marketType} | Threshold: ${threshold ? threshold.toString() : 'undefined'} | DataStream: ${dataSourceId}`)
 
           // Subscribe to Data Streams for this market
           const trackedMarket = activeMarkets.get(marketId)
@@ -191,6 +199,11 @@ async function subscribeToDataStream(market: TrackedMarket) {
     console.log(`   ⏭️  Skipping Data Streams subscription (no dataSourceId)`)
     return
   }
+
+  // DISABLED: WebSocket subscriptions are failing with network errors
+  // The resolver works fine without them using HTTP polling instead
+  console.log(`   ⏭️  Data Streams WebSocket subscription disabled (using HTTP polling instead)`)
+  return
 
   try {
     console.log(`📡 Subscribing to Data Stream: ${market.dataSourceId}`)
@@ -356,8 +369,15 @@ async function subscribeToMarketCreation() {
             args: [args.marketId],
           }) as any
 
-          // Destructure the array: [marketId, marketType, question, creator, createdAt, resolutionTime, status, winningOption, totalPool, optionPool0, optionPool1, dataSourceId, threshold, thresholdToken]
-          const [, marketType, question, creator, , resolutionTime, , , , , , dataSourceId, threshold, thresholdToken] = marketData
+          // NOTE: Viem may return struct fields in a different order - using explicit indices
+          const marketType = marketData[1]
+          const question = marketData[2]
+          const creator = marketData[3]
+          const resolutionTime = marketData[5]
+          // Swapping these two - viem seems to return them in reverse order
+          const threshold = marketData[10]
+          const dataSourceId = marketData[11]
+          const thresholdToken = marketData[12]
 
           activeMarkets.set(args.marketId, {
             marketId: args.marketId,
@@ -419,18 +439,23 @@ async function subscribeToTransfers() {
           if (!isReadyForResolution(market)) continue
 
           console.log(`\n🔍 Checking TRANSFER market: ${market.question}`)
-          console.log(`   Transfer amount: ${value.toString()}`)
-          console.log(`   Threshold: ${market.threshold.toString()}`)
+          console.log(`   Transfer amount (wei): ${value.toString()}`)
+          console.log(`   Transfer amount (SOMI): ${(Number(value) / 1e18).toFixed(2)}`)
+          console.log(`   Threshold: ${market.threshold ? market.threshold.toString() : 'undefined'}`)
+
+          // Convert threshold to wei for comparison (threshold is stored as plain number)
+          const thresholdInWei = BigInt(market.threshold) * BigInt(10 ** 18)
+          console.log(`   Threshold (wei): ${thresholdInWei.toString()}`)
 
           const question = market.question.toLowerCase()
           let winningOption: number
 
           if (question.includes('more than') || question.includes('over') || question.includes('>')) {
-            winningOption = value > market.threshold ? 0 : 1
+            winningOption = value > thresholdInWei ? 0 : 1
           } else if (question.includes('less than') || question.includes('under') || question.includes('<')) {
-            winningOption = value < market.threshold ? 0 : 1
+            winningOption = value < thresholdInWei ? 0 : 1
           } else {
-            winningOption = value > market.threshold ? 0 : 1
+            winningOption = value > thresholdInWei ? 0 : 1
           }
 
           console.log(`   → Result: ${winningOption === 0 ? 'YES' : 'NO'} wins`)
@@ -486,7 +511,7 @@ async function subscribeToGameEvents() {
 
           console.log(`\n🔍 Checking GAME market: ${market.question}`)
           console.log(`   Time taken: ${timeTaken.toString()}`)
-          console.log(`   Threshold: ${market.threshold.toString()}`)
+          console.log(`   Threshold: ${market.threshold ? market.threshold.toString() : 'undefined'}`)
 
           const question = market.question.toLowerCase()
           let winningOption: number

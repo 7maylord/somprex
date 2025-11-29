@@ -11,21 +11,21 @@ const queryClient = new QueryClient()
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID'
 
 const metadata = {
-  name: 'Somnia Prediction Markets',
-  description: 'Oracle-free prediction markets powered by Somnia Data Streams',
-  url: 'https://predex.somnia.network',
+  name: 'SomPrex',
+  description: 'Real-Time Oracle-Free Prediction Markets Powered by Somnia Data Streams',
+  url: 'https://somprex.somnia.network',
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
 const wagmiAdapter = new WagmiAdapter({
-  networks: [somniaTestnet],
+  networks: [somniaTestnet as any],
   projectId,
   ssr: true,
 })
 
 createAppKit({
   adapters: [wagmiAdapter],
-  networks: [somniaTestnet],
+  networks: [somniaTestnet as any],
   projectId,
   metadata,
   features: {
